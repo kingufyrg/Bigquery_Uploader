@@ -1,0 +1,61 @@
+#hboxTitle{
+    -fx-background-color: linear-gradient(from 50% 100% to 100% 50%, #4e7199,#2989d8,#207cca,#7db9e8);
+}
+
+
+.hbox {
+    -fx-background-color: radial-gradient(center 50% 0%, radius 60%, #fefcea, #c1c1c1);
+}
+
+.tab {
+    -fx-background-color: ghostwhite;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected {
+    -fx-background-color: #26273a;
+}
+
+.tab:selected .text {
+    -fx-fill: ghostwhite;
+}
+
+.toggle-button:selected {
+    -fx-background-color: radial-gradient(center 600% 20%, radius 230%, #4e7199, #2989d8, #207cca, #7db9e8);
+}
+
+.toggle-button:selected:hover {
+    -fx-background-color: radial-gradient(center 60% 20%, radius 230%, #4e7199, #4864d8, #306b96, #a8d4e8);
+}
+
+.check-box .box {
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+}
+
+
+.text-field .text{
+    -fx-text-fill: white;
+    -fx-fill: white;
+}
+
+#cnBT {
+    -fx-background-color: radial-gradient(center 270% 10%, radius 250%, #a82626, #e35439, #cb5030, #e89871);
+}
+
+#cnBT:hover {
+    -fx-background-color: radial-gradient(center 270% 10%, radius 250%, #d33030, #f55b3e, #e15935, #f0a487);
+}
+
+#unvBT:selected {
+    -fx-background-color: radial-gradient(center 70% 10%, radius 250%, #40b1d5, #9aeae3, #75a0e9);;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+#unvBT {
+    -fx-background-color: radial-gradient(center 70% 10%, radius 250%, #9cc0e2, #a3d1ea, #a3d6e9);;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}

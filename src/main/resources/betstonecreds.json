@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "dgc-betstone-dev-env",
+  "private_key_id": "1af5733cca16367676a77edfeab0663d78d1476f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCapd4dwY7ky4vq\nUdzq15OFtSV6/mrB79kMGS/kiW2G37flzcBvwoStUgrKikI4WCXqVlyLg6SoIzIc\n/X6iW4XuZF3YZYgj7vtBsgXFP9+Y1pxOP4ffCqKhsV0AJ1zpGgFWRpzVOgwRCNVz\nRFpf3iRkOdJHLzIHeGBgulpx3Xa+ufZOX94wUqAd8zdteqM/G0Sz4QzU+Nk63xRy\nnajwIP3Po3mgM1HrVfCjKLJCmNGCFPSfF2DGon50o6tHQfuEM24SHQCfgiFKASiQ\nybVFtHAcOe1WiM/825Y+h7KTyRzEnbJTPef2AO5GdDAhgNBRxKadL5nAmyxDt+NF\n7QxANocHAgMBAAECggEACdpaifvMjmA3lGDN2fqNMB4n+queAqg05HPwXLeyzj6P\nuWkAAz7Z9C7/eAMSEAPxunnxIIRtJ7dCWJ2ABXkeUd98KS7i2yM9R+S/QF9+7/5w\na/3ZOskzLmkd+0YGweVBw4zxLhaqMSWmb9chiO0e1XHnp1hm8BnnzhHhdFK/X4xh\nLVeuXueh0mtjZDWdxdbQTKQeyT28e2crK5SeaqH7LaPNDZcl/SgUwond70+zmZwM\nQaw/YtK8sZJq2hw2a1PB4PCHRcIxS8pavHvifG7kwJx6TM7fFASss+3gGcspxHFh\nnDU+SUjjL/qY9/iw6GihM2oj4/7oSGeivjLj1FyhUQKBgQDVqldVH6NvZe3WSS04\nkf5/B7QuOgBI/m8jitA0WPtqrO5xqnQUZcV3zpKnWClQAFeYXASDQUzNGWynXYV9\nOh2fQrZjckAmmz6CvRpmTkSShDnHVQ/LRDeIbSvAyPDWmns/nOlu7ZxbIqP7a9yd\nvbFRScCzkl2HiLZz/H2J9aWgEQKBgQC5SgIdjYLpGwYYmybDBtWVLdnUYAUeSGoF\nJzXGTR8GspKISdoesdtGfNAisXCF3xM7uTfFNQLUziI8YLwvWa2BwxVNyxo/OnIt\nPW/qbeUznIX+Yce/WxD1KjFNMfuVvQ4PK4CdyVMqF+bVH3u9iA5z0y6wV5N9t9pm\n3euZRGBNlwKBgQCjbOHVkxh/6TesUlZLUaeV4/+V5/k1256IUfGESJcs9c5/lD+r\nJliOlasoYk9fCJP3TlKJTlX+/jZUIT0sFlp36R/2GnokzVNXzmo13CGo64gCBfbJ\no4jSSaZQk6Fak9g3RL5rgUS5lFpWwR6CbIgGw+GnuAjf1NqxBmvDLOec8QKBgHkv\nJUkM17T7/rWzK9vcKW7DKTfUgSR4OhcauPn0ULmBq4LFwonWy1JDqaE3Kh/0cVDb\nZ9VsQWjLVOrmXc4eOfOnktRpZMY7xJdAGmVZ8NEbqytf6lOGDQY7zTju2tvpZTuY\nuSr5lJHwRgHX8IdaaBFq6ptc+9L6nzYuKLv6U34LAoGAJ+DsmpCRyqWwqkk6gpWv\n8aYUrLz+D1AZGcNssUyZ5RZtU8BbSHK1Nags+YLiHkdHCHTcBrS7n0QMyIfZsnBy\nRx0X9JrKUScmNv9iQTPUjbg6z3AvbCHncTV9tPCho1w+ROjoc4QUF9UbU9hC+OtE\nUdr3EYRMN/NJgLmuCUbgBqw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dgc-betstone-reports@dgc-betstone-dev-env.iam.gserviceaccount.com",
+  "client_id": "104887310396727212000",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dgc-betstone-reports%40dgc-betstone-dev-env.iam.gserviceaccount.com"
+}
