@@ -32,8 +32,10 @@ public class JsonScorecardSchemas {
                     "{\"mode\": \"REQUIRED\",\"name\": \"MBVersion\",\"type\": \"STRING\"}," +
                     "{\"mode\": \"REQUIRED\",\"name\": \"MBType\",\"type\": \"STRING\"}," +
                     "{\"mode\": \"REQUIRED\",\"name\": \"MBLevels\",\"type\": \"STRING\"}," +
-                    "{\"mode\": \"REQUIRED\",\"name\": \"Type\",\"type\": \"STRING\"}]";/**," +
-                    "{\"mode\": \"REQUIRED\",\"name\": \"Library\",\"type\": \"STRING\"}]";**/
+                    "{\"mode\": \"REQUIRED\",\"name\": \"Type\",\"type\": \"STRING\"}," +
+                    "{\"mode\": \"REQUIRED\",\"name\": \"SchedulingEnabled\",\"type\": \"STRING\"}," +
+                    "{\"mode\": \"REQUIRED\",\"name\": \"SchedulingType\",\"type\": \"STRING\"}," +
+                    "{\"mode\": \"REQUIRED\",\"name\": \"Days\",\"type\": \"STRING\"}]";
 
     public static final String MISTERY =
             "[{\"mode\":\"REQUIRED\",\"name\":\"EGM\",\"type\":\"STRING\"}," +
