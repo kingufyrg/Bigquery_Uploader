@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="javafx.controllers.MainController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane prefHeight="200.0" prefWidth="200.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMinHeight="35.0" VBox.vgrow="ALWAYS">
+              <tabs>
+                <Tab closable="false" text="Scorecard Reports">
+                  <content>
+                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="100.0" style="-fx-background-color: ghostwhite;" styleClass="vboxParent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox id="hboxTitle" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="800.0" style="-fx-background-color: #26273a;" styleClass="hboxTitle">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="710.0" text="Procesos de Descarga para Scorecard" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                 <Font name="Lubalin Graph Demi" size="20.0"/>
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                       </effect>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="183.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                 <Label id="unvBT" alignment="CENTER" maxHeight="40.0"
+                                                        maxWidth="1.7976931348623157E308" prefHeight="35.0"
+                                                        prefWidth="169.0"
+                                                        style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;"
+                                                        text="Modalidad" wrapText="true">
+                                                   <font>
+                                                      <Font name="Verdana Bold Italic" size="13.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                 <ComboBox fx:id="modeCB" maxWidth="1.7976931348623157E308"
+                                                           prefHeight="35.0" prefWidth="167.0" promptText="Escoger">
+                                                   <VBox.margin>
+                                                      <Insets left="1.0" right="1.0" />
+                                                   </VBox.margin>
+                                                </ComboBox>
+                                                 <Label alignment="CENTER" maxHeight="40.0"
+                                                        maxWidth="1.7976931348623157E308" prefHeight="35.0"
+                                                        prefWidth="169.0"
+                                                        style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;"
+                                                        text="Por:" wrapText="true">
+                                                     <font>
+                                                         <Font name="Verdana Bold Italic" size="13.0"/>
+                                                     </font>
+                                                     <opaqueInsets>
+                                                         <Insets/>
+                                                     </opaqueInsets>
+                                                     <VBox.margin>
+                                                         <Insets top="10.0"/>
+                                                     </VBox.margin>
+                                                 </Label>
+                                                 <ComboBox fx:id="temporalCB" maxWidth="1.7976931348623157E308"
+                                                           prefHeight="35.0" prefWidth="167.0"
+                                                           promptText="Temporalidad"/>
+                                                 <Label alignment="CENTER" maxHeight="40.0"
+                                                        maxWidth="1.7976931348623157E308" prefHeight="35.0"
+                                                        prefWidth="169.0"
+                                                        style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;"
+                                                        text="Formato de Descarga" wrapText="true">
+                                                   <font>
+                                                      <Font name="Verdana Bold Italic" size="13.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                 <ToggleButton fx:id="formatBtn" maxWidth="1.7976931348623157E308"
+                                                               mnemonicParsing="false" prefHeight="30.0"
+                                                               prefWidth="140.0" selected="true" text="Excel">
+                                                     <font>
+                                                         <Font name="System Bold" size="14.0"/>
+                                                     </font>
+                                                 </ToggleButton>
+                                             </children>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="220.0" prefWidth="183.0" style="-fx-background-color: ghostwhite; -fx-background-radius: 5 5 0 0; -fx-border-radius: 5 5 0 0;" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="52.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="169.0" style="-fx-background-radius: 5 5 0 0; -fx-border-color: black black white black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;" text="País:" textAlignment="CENTER" wrapText="true">
+                                                   <font>
+                                                      <Font name="Verdana Bold Italic" size="13.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;">
+                                                   <children>
+                                                      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="167.0" prefWidth="153.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <CheckBox fx:id="mexicoCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mexico" VBox.vgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                            <CheckBox fx:id="laosCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Laos" VBox.vgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                            <CheckBox fx:id="spainCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Spain" VBox.vgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="167.0" prefWidth="170.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <CheckBox fx:id="nepalShangriCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Nepal Shangri" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                            <CheckBox fx:id="nepalNotShangriCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Nepal Not Shangri" textAlignment="CENTER" wrapText="true">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                            <CheckBox fx:id="turksCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Turks" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                                                               <font>
+                                                                  <Font name="Antique Olive Roman" size="11.0" />
+                                                               </font>
+                                                            </CheckBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                   <padding>
+                                                      <Insets left="2.0" right="2.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="3.0" right="3.0" />
+                                             </HBox.margin>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="220.0" prefWidth="150.0" style="-fx-background-color: ghostwhite; -fx-background-radius: 5 5 0 0; -fx-border-radius: 5 5 0 0;" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label alignment="CENTER" maxHeight="38.0" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="169.0" style="-fx-background-radius: 5 5 0 0; -fx-border-color: black black white black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;" text="Reporte:" wrapText="true">
+                                                   <font>
+                                                      <Font name="Verdana Bold Italic" size="13.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                 <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="200.0"
+                                                       prefWidth="200.0" spacing="1.0" style="-fx-border-color: black;"
+                                                       VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <CheckBox fx:id="gameprofitCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Game Profit" VBox.vgrow="ALWAYS">
+                                                         <font>
+                                                            <Font name="Antique Olive Roman" size="11.0" />
+                                                         </font>
+                                                      </CheckBox>
+                                                      <CheckBox fx:id="deviceEGMCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Device EGM" VBox.vgrow="ALWAYS">
+                                                         <font>
+                                                            <Font name="Antique Olive Roman" size="11.0" />
+                                                         </font>
+                                                      </CheckBox>
+                                                      <CheckBox fx:id="misteryGGRCheckB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mistery GGR" VBox.vgrow="ALWAYS">
+                                                         <font>
+                                                            <Font name="Antique Olive Roman" size="11.0" />
+                                                         </font>
+                                                      </CheckBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="2.0" right="2.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="3.0" right="3.0" />
+                                             </HBox.margin>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="183.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="170.0" style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;" text="Fecha:" wrapText="true">
+                                                   <font>
+                                                      <Font name="Verdana Bold Italic" size="13.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <DatePicker fx:id="initDateDP" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="168.0" promptText="Dia/Mes/Año">
+                                                   <VBox.margin>
+                                                      <Insets left="1.0" right="1.0" />
+                                                   </VBox.margin>
+                                                   <tooltip>
+                                                      <Tooltip fx:id="dateTooltip" autoHide="true" textAlignment="JUSTIFY" wrapText="true">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Tooltip>
+                                                   </tooltip>
+                                                </DatePicker>
+                                                 <Label alignment="CENTER" layoutX="10.0" layoutY="10.0"
+                                                        maxWidth="1.7976931348623157E308" prefHeight="40.0"
+                                                        prefWidth="170.0"
+                                                        style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;"
+                                                        text="Tabla/Descarga" wrapText="true">
+                                                     <font>
+                                                         <Font name="Verdana Bold Italic" size="13.0"/>
+                                                     </font>
+                                                     <opaqueInsets>
+                                                         <Insets/>
+                                                     </opaqueInsets>
+                                                     <VBox.margin>
+                                                         <Insets top="25.0"/>
+                                                     </VBox.margin>
+                                                 </Label>
+                                                 <ToggleButton fx:id="dailyButton" maxWidth="1.7976931348623157E308"
+                                                               mnemonicParsing="false" prefHeight="53.0"
+                                                               prefWidth="183.0" selected="true"
+                                                               styleClass="buttonDaily" text="Daily">
+                                                     <font>
+                                                         <Font name="System Bold" size="18.0"/>
+                                                     </font>
+                                                 </ToggleButton>
+                                             </children>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="740.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Label maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="18.0" prefWidth="730.0" style="-fx-background-color: rgba(150, 150, 150, .5); -fx-background-radius: 8;" text="Directorio de Salida:" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                 <Insets bottom="2.0" left="15.0" right="2.0" top="2.0"/>
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="outputDirectoryTF" editable="false" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="35.0" prefWidth="924.0" style="-fx-background-color: grey; -fx-border-radius: 6; -fx-background-radius: 6;" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets bottom="6.0" left="10.0" right="10.0" top="6.0" />
+                                             </HBox.margin>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </TextField>
+                                          <ButtonBar prefHeight="54.0" prefWidth="716.0" HBox.hgrow="ALWAYS">
+                                             <buttons>
+                                                 <Button id="cnBT" fx:id="cancelButton" maxHeight="35.0"
+                                                         maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                                         prefHeight="35.0" prefWidth="120.0"
+                                                         style="-fx-background-radius: 8; -fx-border-radius: 8;"
+                                                         text="Cancelar">
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                                   </effect>
+                                                </Button>
+                                                <Button fx:id="initButton" maxHeight="35.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-radius: 8; -fx-border-radius: 8;" text="Iniciar">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <effect>
+                                                      <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                                   </effect>
+                                                </Button>
+                                             </buttons>
+                                             <HBox.margin>
+                                                <Insets left="12.0" right="12.0" />
+                                             </HBox.margin>
+                                          </ButtonBar>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="740.0">
+                                       <children>
+                                           <Label maxHeight="1.7976931348623157E308" prefHeight="32.0" prefWidth="730.0"
+                                                  style="-fx-background-color: rgba(150, 150, 150, .5); -fx-background-radius: 8;"
+                                                  text="Directorio de Propiedades:" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                 <Insets bottom="2.0" left="15.0" right="2.0" top="2.0"/>
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="propertiesDirectoryTF" editable="false" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="35.0" prefWidth="924.0" style="-fx-background-color: grey; -fx-border-radius: 6; -fx-background-radius: 6;" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets bottom="6.0" left="10.0" right="10.0" top="6.0" />
+                                             </HBox.margin>
+                                             <effect>
+                                                <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0" />
+                                             </effect>
+                                          </TextField>
+                                           <Label maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="771.0"
+                                                  HBox.hgrow="ALWAYS"/>
+                                       </children>
+                                    </HBox>
+                                    <Separator disable="true" maxWidth="1.7976931348623157E308" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab closable="false" text="ETL Process">
+                     <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                             <children>
+                                 <HBox id="hboxTitle" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0"
+                                       maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="800.0"
+                                       style="-fx-background-color: #26273a;" styleClass="hboxTitle"
+                                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                       AnchorPane.topAnchor="0.0">
+                                     <children>
+                                         <Label alignment="CENTER" contentDisplay="CENTER"
+                                                maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                                prefHeight="32.0" prefWidth="710.0"
+                                                text="Ejecución de Macro/Transformación" textAlignment="CENTER"
+                                                textFill="WHITE" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                 <Font name="Lubalin Graph Demi" size="20.0"/>
+                                             </font>
+                                             <HBox.margin>
+                                                 <Insets/>
+                                             </HBox.margin>
+                                         </Label>
+                                     </children>
+                                     <effect>
+                                         <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51" offsetX="2.0"
+                                                     offsetY="8.0" radius="9.8775" width="0.0"/>
+                                     </effect>
+                                 </HBox>
+                                 <VBox alignment="CENTER" layoutX="284.0" maxWidth="-Infinity" prefHeight="204.0"
+                                       prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="200.0"
+                                       AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+                                     <children>
+                                         <Label alignment="CENTER" maxHeight="40.0" maxWidth="1.7976931348623157E308"
+                                                prefHeight="35.0" prefWidth="169.0"
+                                                style="-fx-background-radius: 5 5 0 0; -fx-border-color: black; -fx-background-color: ghostwhite; -fx-border-radius: 5 5 0 0;"
+                                                text="Formato de Descarga" wrapText="true">
+                                             <font>
+                                                 <Font name="Verdana Bold Italic" size="13.0"/>
+                                             </font>
+                                             <opaqueInsets>
+                                                 <Insets/>
+                                             </opaqueInsets>
+                                         </Label>
+                                         <ToggleButton fx:id="formatBtn1" maxWidth="1.7976931348623157E308"
+                                                       mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0"
+                                                       selected="true" text="Excel">
+                                             <font>
+                                                 <Font name="System Bold" size="14.0"/>
+                                             </font>
+                                         </ToggleButton>
+                                         <Button fx:id="rectButton" mnemonicParsing="false" prefHeight="54.0"
+                                                 prefWidth="192.0" text="Iniciar Rectificador">
+                                             <font>
+                                                 <Font name="Verdana" size="17.0"/>
+                                             </font>
+                                             <VBox.margin>
+                                                 <Insets top="20.0"/>
+                                             </VBox.margin>
+                                         </Button>
+                                         <Button fx:id="macroButton" mnemonicParsing="false" prefHeight="54.0"
+                                                 prefWidth="192.0" text="Transf. Macro">
+                                             <font>
+                                                 <Font name="Marlett" size="17.0"/>
+                                             </font>
+                                             <VBox.margin>
+                                                 <Insets top="10.0"/>
+                                             </VBox.margin>
+                                         </Button>
+                                         <Button fx:id="pythonButton" mnemonicParsing="false" prefHeight="54.0"
+                                                 prefWidth="192.0" text="Transf. Python">
+                                             <font>
+                                                 <Font name="Marlett" size="17.0"/>
+                                             </font>
+                                             <VBox.margin>
+                                                 <Insets top="5.0"/>
+                                             </VBox.margin>
+                                         </Button>
+                                     </children>
+                                 </VBox>
+                             </children>
+                         </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="BigQuery Upload">
+                      <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
+                                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="0.0">
+                                      <children>
+                                          <HBox id="hboxTitle" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308"
+                                                prefHeight="55.0" prefWidth="800.0"
+                                                style="-fx-background-color: #26273a;" styleClass="hboxTitle">
+                                              <children>
+                                                  <Label alignment="CENTER" contentDisplay="CENTER"
+                                                         maxHeight="1.7976931348623157E308"
+                                                         maxWidth="1.7976931348623157E308" prefHeight="32.0"
+                                                         prefWidth="710.0" text="Procesos de Subida a BigQuery"
+                                                         textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                                      <font>
+                                                          <Font name="Lubalin Graph Demi" size="20.0"/>
+                                                      </font>
+                                                      <HBox.margin>
+                                                          <Insets/>
+                                                      </HBox.margin>
+                                                  </Label>
+                                              </children>
+                                              <effect>
+                                                  <DropShadow blurType="GAUSSIAN" color="#00000025" height="41.51"
+                                                              offsetX="2.0" offsetY="8.0" radius="9.8775" width="0.0"/>
+                                              </effect>
+                                              <VBox.margin>
+                                                  <Insets bottom="15.0"/>
+                                              </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                              <children>
+                                                  <ToggleButton id="unvBT" fx:id="universalButton"
+                                                                mnemonicParsing="false" prefHeight="35.0"
+                                                                prefWidth="120.0" text="Universal"
+                                                                textAlignment="CENTER" wrapText="true">
+                                                      <font>
+                                                          <Font name="System Bold" size="14.0"/>
+                                                      </font>
+                                                      <effect>
+                                                          <DropShadow blurType="GAUSSIAN" color="#0000002b"
+                                                                      height="12.42" offsetX="2.0" offsetY="8.0"
+                                                                      radius="6.3125" width="14.83"/>
+                                                      </effect>
+                                                  </ToggleButton>
+                                              </children>
+                                              <VBox.margin>
+                                                  <Insets bottom="9.0" left="12.0" right="12.0"/>
+                                              </VBox.margin>
+                                          </HBox>
+                                          <SplitPane dividerPositions="0.4061662198391421" prefHeight="160.0"
+                                                     prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                              <items>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0"
+                                                              prefWidth="100.0">
+                                                      <children>
+                                                          <ScrollPane prefHeight="236.0" prefWidth="314.0"
+                                                                      AnchorPane.bottomAnchor="0.0"
+                                                                      AnchorPane.leftAnchor="0.0"
+                                                                      AnchorPane.rightAnchor="0.0"
+                                                                      AnchorPane.topAnchor="0.0">
+                                                              <content>
+                                                                  <VBox fx:id="tableUploadVB"
+                                                                        maxHeight="1.7976931348623157E308"
+                                                                        maxWidth="1.7976931348623157E308"
+                                                                        prefHeight="200.0" spacing="8.0">
+                                                                      <children>
+                                                                          <Label alignment="BASELINE_CENTER"
+                                                                                 prefHeight="45.0" prefWidth="250.0"
+                                                                                 text="Tablas" textAlignment="CENTER">
+                                                                              <font>
+                                                                                  <Font name="Myanmar Text Bold"
+                                                                                        size="16.0"/>
+                                                                              </font>
+                                                                          </Label>
+                                                                          <CheckBox fx:id="gPDCheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Game Profit Daily"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="gPICheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Game Profit Invoicing"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="egmDCheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="EGM Daily"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="egmICheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="EGM Invoicing"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="aDCheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Assets Daily"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="aICheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Assets Invoicing"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="misteryCheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Mistery" VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                          <CheckBox fx:id="peCheckB"
+                                                                                    maxHeight="1.7976931348623157E308"
+                                                                                    maxWidth="1.7976931348623157E308"
+                                                                                    mnemonicParsing="false"
+                                                                                    text="Player Experience"
+                                                                                    VBox.vgrow="ALWAYS">
+                                                                              <font>
+                                                                                  <Font name="Antique Olive Roman"
+                                                                                        size="13.0"/>
+                                                                              </font>
+                                                                              <VBox.margin>
+                                                                                  <Insets bottom="8.0" left="15.0"
+                                                                                          right="15.0"/>
+                                                                              </VBox.margin>
+                                                                          </CheckBox>
+                                                                      </children>
+                                                                      <padding>
+                                                                          <Insets bottom="5.0" left="5.0" right="5.0"
+                                                                                  top="5.0"/>
+                                                                      </padding>
+                                                                  </VBox>
+                                                              </content>
+                                                          </ScrollPane>
+                                                      </children>
+                                                  </AnchorPane>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0"
+                                                              prefWidth="375.0"/>
+                                              </items>
+                                              <padding>
+                                                  <Insets left="5.0" right="5.0"/>
+                                              </padding>
+                                              <effect>
+                                                  <DropShadow blurType="GAUSSIAN" color="#00000034" height="27.79"
+                                                              offsetX="1.0" offsetY="5.0" radius="9.4125"
+                                                              width="11.86"/>
+                                              </effect>
+                                          </SplitPane>
+                                          <ButtonBar prefHeight="54.0" prefWidth="716.0">
+                                              <buttons>
+                                                  <Button fx:id="cancelUploadButton" maxHeight="35.0"
+                                                          maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                                          prefHeight="35.0" prefWidth="120.0"
+                                                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #e08138;"
+                                                          text="Cancelar">
+                                                      <font>
+                                                          <Font name="System Bold" size="13.0"/>
+                                                      </font>
+                                                      <effect>
+                                                          <DropShadow blurType="GAUSSIAN" color="#00000025"
+                                                                      height="41.51" offsetX="2.0" offsetY="8.0"
+                                                                      radius="9.8775" width="0.0"/>
+                                                      </effect>
+                                                  </Button>
+                                                  <Button fx:id="initUploadButton" maxHeight="35.0"
+                                                          maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                                          prefHeight="35.0" prefWidth="120.0"
+                                                          style="-fx-background-radius: 8; -fx-border-radius: 8;"
+                                                          text="Iniciar">
+                                                      <font>
+                                                          <Font name="System Bold" size="14.0"/>
+                                                      </font>
+                                                      <effect>
+                                                          <DropShadow blurType="GAUSSIAN" color="#00000025"
+                                                                      height="41.51" offsetX="2.0" offsetY="8.0"
+                                                                      radius="9.8775" width="0.0"/>
+                                                      </effect>
+                                                  </Button>
+                                              </buttons>
+                                              <VBox.margin>
+                                                  <Insets left="10.0" right="10.0"/>
+                                              </VBox.margin>
+                                          </ButtonBar>
+                                      </children>
+                                  </VBox>
+                              </children>
+                          </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+             <TextArea fx:id="loggerArea" editable="false" maxHeight="200.0" maxWidth="1.7976931348623157E308"
+                       prefHeight="150.0" prefWidth="784.0" promptText="Logging..." style="-fx-background-color: grey;"
+                       wrapText="true" VBox.vgrow="SOMETIMES">
+                 <VBox.margin>
+                     <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                 </VBox.margin>
+                 <padding>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                 </padding>
+             </TextArea>
+             <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="730.0"
+                          progress="0.0" style="-fx-background-radius: 8; -fx-border-radius: 8;" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                 <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                 </padding>
+            </ProgressBar>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
