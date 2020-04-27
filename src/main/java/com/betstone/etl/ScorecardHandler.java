@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class ScorecardHandler {
 
     private static final long TIME_POLL = 60 * 20;
     public static Logger LOGGER = LogManager.getLogger(ScorecardHandler.class);
-    private final String egmReportWE = "#dtReportLayouts #colLayout_Row2";
+    private final String egmReportWE = "//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]";
     private final String gPReportWE = "#dtReportLayouts #colLayout_Row4";
     private String misteryReportWE = "#dtReportLayouts #colLayout_Row6";
     private String quickEGM_GPWE = "#ReportList_BillinReports #colLayout_Row1";
@@ -64,7 +65,7 @@ public class ScorecardHandler {
     private final String inpSite_handlerId = "inpSite_handler";
     private final String inpSiteListId = "#inpSite li";
 
-    private final String baseURL = "https://scorecard2.betstone.com/rdPage.aspx";
+    private final String baseURL = "https://biportal.betstone.com/User/Login?ReturnUrl=%2f";
 
     static WebDriver driver;
     private WebElement dateFromSubmit;
@@ -455,6 +456,7 @@ public class ScorecardHandler {
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
+        Template_EGM_Analysis();
         inputDates(pais);
         setWebCurrency(pais);
         setWebDistributor();
@@ -476,7 +478,11 @@ public class ScorecardHandler {
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
-        inputDates(pais);
+
+        openReport(reportType);
+        Wait_for_report(reportType);
+    }
+        /**inputDates(pais);
         setWebCurrency(pais);
         setWebDistributor();
         setCountry(pais);
@@ -486,8 +492,8 @@ public class ScorecardHandler {
         refreshButton();
         openReport(reportType);
         CargaReporte(reportType);
-        verifyReportLoadedCorrectly(reportType);
-    }
+        verifyReportLoadedCorrectly(reportType);*/
+
     /**
      * @param reportType
      * @param pais
@@ -501,7 +507,8 @@ public class ScorecardHandler {
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
-        inputDates(pais);
+    }
+        /**inputDates(pais);
         setWebCurrency(pais);
         setWebDistributor();
         setCountry(pais);
@@ -513,8 +520,8 @@ public class ScorecardHandler {
 
         downloadExcel(reportType);
         waitDownloadComplete(pais, reportType, false);
-        setNewLastDateProperty(pais);
-    }
+        setNewLastDateProperty(pais);*/
+
 
     /**
      * Proceso de ingreso de variables y botones en ScoreCard.
@@ -531,6 +538,7 @@ public class ScorecardHandler {
             }
         } else
             returnToMainMenu();
+
         inputDates(pais);
         setWebCurrency(pais);
         setWebDistributor();
@@ -555,6 +563,14 @@ public class ScorecardHandler {
             returnToMainMenu();
     }
 
+    private void Template_EGM_Analysis()  {
+       try{
+           wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]"))).click();
+       }
+         catch(Exception e) {
+             returnToMainMenu();
+         }
+    }
     /**
      * Ingresa las opciones de Site para variables en Scorecard, relevante sólo para Nepal. Verifica qué sitio es
      * para poder definir si el tipo de moneda es US o es Rupee.
@@ -650,9 +666,12 @@ public class ScorecardHandler {
         driver.get(baseURL);
         username = getPropertiesValue("rd.username");
         password = getPropertiesValue("rd.password");
-        driver.findElement(By.id("rdUsername")).sendKeys(username);
-        driver.findElement(By.id("rdPassword")).sendKeys(password);
-        driver.findElement(By.id("Submit1")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"password\"]"))).click();
+        driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys(username);
+        driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"loginButton\"]/span"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[2]/div/div/div[2]/a[2]")));
+        LOGGER.info("Inicio de Sesión correcto");
         return true;
     }
 
@@ -662,6 +681,7 @@ public class ScorecardHandler {
      * @param pais País que contiene la fecha a ingresar.
      */
     private void inputDates(Pais pais) {
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[2]/div/div/div[2]/a[2]")));
         dateFromSubmit = driver.findElement(By.id(inputFromDateId));
         dateFromSubmit.clear();
         dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
@@ -846,7 +866,7 @@ public class ScorecardHandler {
                 driver.findElement(By.cssSelector(gPReportWE)).click();
                 break;
             case SCORECARD_EGM:
-                driver.findElement(By.cssSelector(egmReportWE)).click();
+                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]"))).click();
                 break;
             case MYSTERY:
                 driver.findElement(By.cssSelector(misteryReportWE)).click();
@@ -881,6 +901,14 @@ public class ScorecardHandler {
      * Comenzando por cambiar el focus del driver a la segunda página, esperando a que
      * se carge la página.
      */
+    private void Wait_for_report(ReportType reportType) {
+
+        tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"reportView_121_Button\"]/span")));
+        LOGGER.info("Reporte cargado");
+    }
+
     private void downloadExcel(ReportType reportType) {
 
         tabs = new ArrayList<>(driver.getWindowHandles());
