@@ -34,7 +34,7 @@ public class IOUtils {
     private static String propertiesFile = "config.properties";
 
 
-    public static final DateTimeFormatter scorecardFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    public static final DateTimeFormatter scorecardFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     public static final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static void deleteAllRepeatedExcelFiles(ScorecardHandler scorecard) { // todo: Hay que refactorizar este método

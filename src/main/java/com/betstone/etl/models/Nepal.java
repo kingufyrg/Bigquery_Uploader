@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Nepal extends Pais{
 
     public static final String INDIAN_CURRENCY = "Indian Rupee";
-    public static final String US_CURRENCY = "US_Dollar";
+    public static final String US_CURRENCY = "US Dollar";
     private SiteType siteType;
 
     public Nepal(LocalDate fechaInicial) {

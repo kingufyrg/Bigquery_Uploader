@@ -16,7 +16,7 @@ public enum CasinoOperators {
     MAJESTIC_GROUP("Majestic Group", CountryType.MEXICO, 1),
     OPERADORA_CLASS("Operadora Class", CountryType.MEXICO, 1),
     OPERADORA_APUESTAS_MEXICO("Operadora de Apuestas México", CountryType.MEXICO, 1),
-    OPERADORA_SUEÑOS("Operadora de Sueños", CountryType.MEXICO, 1),
+    OPERADORA_SUENOS("Operadora de Sueños", CountryType.MEXICO, 1),
     BGE("BGE", CountryType.MEXICO, 1),
     PETATE("Petate", CountryType.MEXICO, 1),
     PETOLOF("Petolof", CountryType.MEXICO, 1),

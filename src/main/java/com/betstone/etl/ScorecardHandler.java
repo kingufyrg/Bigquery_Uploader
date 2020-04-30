@@ -1,9 +1,6 @@
 package com.betstone.etl;
 
-import com.betstone.etl.enums.CasinoOperators;
-import com.betstone.etl.enums.Operator;
-import com.betstone.etl.enums.ReportType;
-import com.betstone.etl.enums.SiteType;
+import com.betstone.etl.enums.*;
 import com.betstone.etl.io.IOUtils;
 import com.betstone.etl.models.*;
 import com.betstone.etl.predicates.CasinoOperatorsPredicates;
@@ -461,7 +458,7 @@ public class ScorecardHandler {
         setWebCurrency(pais);
         setWebDistributor();
         setCountry(pais);
-        /*setCasinoOperator(pais);*/
+        setCasinoOperator(pais);
         if (pais instanceof Nepal)
             setSite(pais);
         refreshButton();
@@ -481,9 +478,12 @@ public class ScorecardHandler {
 
         openReport(reportType);
         Wait_for_report(reportType);
-    }
-        /**inputDates(pais);
+        inputDates(pais);
         setWebCurrency(pais);
+        setCountry(pais);
+    }
+        /**
+
         setWebDistributor();
         setCountry(pais);
         setCasinoOperator(pais);
@@ -676,18 +676,19 @@ public class ScorecardHandler {
     }
 
     /**
-     * Ingresa fecha en los elementos web de la página.
+     * Ingresa fecha en el campo Fecha de la Página WEB.
      *
      * @param pais País que contiene la fecha a ingresar.
      */
     private void inputDates(Pais pais) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[2]/div/div/div[2]/a[2]")));
-        dateFromSubmit = driver.findElement(By.id(inputFromDateId));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input")));
+        dateFromSubmit = driver.findElement(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input"));
         dateFromSubmit.clear();
         dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
-        dateToSubmit = driver.findElement(By.id(inputToDateId));
+        /*dateToSubmit = driver.findElement(By.id(inputToDateId));
         dateToSubmit.clear();
         dateToSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
+        */
     }
 
     /**
@@ -696,7 +697,7 @@ public class ScorecardHandler {
      * @param pais Pais a ingresar
      */
     private void setWebCurrency(Pais pais) {
-        currencyWE = driver.findElement(By.id(inputCurrencyId));
+        currencyWE = driver.findElement(By.xpath("//*[@id=\"filter_340_Select\"]"));
         switch (pais.getCountryType()) {
             case MEXICO:
                 currencyWE.sendKeys(Mexico.CURRENCY);
@@ -761,14 +762,11 @@ public class ScorecardHandler {
      * @param pais Objeto heredado de país
      */
     private void setCountry(Pais pais) {
-        countryWE = wait.until(webDriver -> driver.findElement(By.id(inputCountry_handlerId)));
-        countryWE.click();
-        List<WebElement> countryLisWE = driver.findElements(By.cssSelector(inpCountryListId));
-        countryLisWE.stream()
-                .filter(CountryPredicates.isSameCountryAndInputsDeselected(pais))
-                .forEach(li -> li.findElement(By.cssSelector("input")).click());
-        deselectNoMatch(countryLisWE, CountryPredicates.isNotSameCountryAndInputsSelected(pais));
+        LOGGER.info("Inicio SetCountry");
+        WebElement a  = driver.findElement(By.xpath("//*[@id=\"filter_335_MultiSelect\"]"));
+        a.sendKeys(pais.getCountryType().toString());
         LOGGER.info("Pais definido");
+        casinoOperatorWE = wait.until(webDriver -> driver.findElement(By.id(inpCasinoOperator_handlerId)));
     }
 
     /**
@@ -897,9 +895,7 @@ public class ScorecardHandler {
     }
 
     /**
-     * Hace click en los elementos web que corresponden para descargar el archivo io.
-     * Comenzando por cambiar el focus del driver a la segunda página, esperando a que
-     * se carge la página.
+     * Una vez click en el reporte especificado, espera a que cargue
      */
     private void Wait_for_report(ReportType reportType) {
 
@@ -907,6 +903,7 @@ public class ScorecardHandler {
         driver.switchTo().window(tabs.get(1));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"reportView_121_Button\"]/span")));
         LOGGER.info("Reporte cargado");
+        LOGGER.info("Verificando si hay información");
     }
 
     private void downloadExcel(ReportType reportType) {
