@@ -32,7 +32,7 @@ import static com.betstone.etl.io.IOUtils.*;
 
 public class ScorecardHandler {
 
-    private static final long TIME_POLL = 60 * 20;
+    private static final long TIME_POLL = 6;
     public static Logger LOGGER = LogManager.getLogger(ScorecardHandler.class);
     private final String egmReportWE = "//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]";
     private final String gPReportWE = "#dtReportLayouts #colLayout_Row4";
@@ -469,18 +469,20 @@ public class ScorecardHandler {
 
     private void scorecardInputProcessAndDownloadExcel1(ReportType reportType, Pais pais) throws Exception {
         returnToMainMenuOrLoadPage();
+        LOGGER.info("Entrando a scorecardinputProcess");
         if (reportType == ReportType.MYSTERY && !(pais instanceof Mexico)) {
             returnToMainMenu();
             return;
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
-
         openReport(reportType);
         Wait_for_report(reportType);
         inputDates(pais);
         setWebCurrency(pais);
         setCountry(pais);
+        refreshButton();
+        CargaReporte(reportType);
     }
         /**
 
@@ -766,8 +768,7 @@ public class ScorecardHandler {
         WebElement a  = driver.findElement(By.xpath("//*[@id=\"filter_335_MultiSelect\"]"));
         a.sendKeys(pais.getCountryType().toString());
         LOGGER.info("Pais definido");
-        casinoOperatorWE = wait.until(webDriver -> driver.findElement(By.id(inpCasinoOperator_handlerId)));
-    }
+        }
 
     /**
      * Hace click en todos los 'inputs' que no correspondan.
@@ -848,8 +849,11 @@ public class ScorecardHandler {
      * Hace click en el botón refresh de la página de scorecard.
      */
     private void refreshButton() {
-        refreshWE = driver.findElement(By.id(refreshButtonId));
-        refreshWE.click();
+        refreshWE = driver.findElement(By.className("md-fab"));
+        LOGGER.info("Elemento encontrado");
+        /**((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+refreshWE.getLocation().y+")");**/
+        ((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+refreshWE.getLocation().x+")");
+        /**refreshWE.click();**/
     }
 
 
@@ -903,7 +907,6 @@ public class ScorecardHandler {
         driver.switchTo().window(tabs.get(1));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"reportView_121_Button\"]/span")));
         LOGGER.info("Reporte cargado");
-        LOGGER.info("Verificando si hay información");
     }
 
     private void downloadExcel(ReportType reportType) {
@@ -925,10 +928,7 @@ public class ScorecardHandler {
 
     private void CargaReporte(ReportType reportType) {
 
-        tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
-        exportIconWE = wait.until(webDriver -> driver.findElement(By.id(imgTableExportId)));
-        LOGGER.info("Reporte cargado");
+        exportIconWE = wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"resultsTableHeader\"]/md-menu[1]/button")));
         LOGGER.info("Verificando si hay información");
 
     }
