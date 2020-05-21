@@ -440,7 +440,7 @@ public class ScorecardHandler {
 
 
     /**
-     * Proceso de ingreso de variables y botones en ScoreCard.
+     * Proceso de ingreso de variables y botones en BI Portal.
      *
      * @param reportType Reporte a procesar
      * @param pais       País a ingresar.
@@ -453,16 +453,18 @@ public class ScorecardHandler {
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
-        Template_EGM_Analysis();
+        openReport(pais, reportType);
+        Wait_for_report(reportType);
         inputDates(pais);
         setWebCurrency(pais);
-        setWebDistributor();
         setCountry(pais);
-        setCasinoOperator(pais);
+        refreshButton();
+        CargaReporte(reportType);
+        verifyReportLoadedCorrectly(reportType);
         if (pais instanceof Nepal)
             setSite(pais);
         refreshButton();
-        openReport(reportType);
+        openReport(pais, reportType);
         downloadExcel(reportType);
         waitDownloadComplete(pais, reportType, false);
     }
@@ -476,13 +478,18 @@ public class ScorecardHandler {
         }
         eraseAllIncompleteDownloads();
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
-        openReport(reportType);
+        openReport(pais, reportType);
         Wait_for_report(reportType);
         inputDates(pais);
         setWebCurrency(pais);
         setCountry(pais);
+        setWaitDriver(TIME_POLL);
+        if (pais instanceof Nepal)
+            setWaitDriver(TIME_POLL);
+            setSite(pais);
         refreshButton();
         CargaReporte(reportType);
+        verifyReportLoadedCorrectly(reportType);
     }
         /**
 
@@ -580,26 +587,23 @@ public class ScorecardHandler {
      * @param pais País a ingresar.
      */
     private void setSite(Pais pais) {
-        sitesWE = wait.until(webDriver -> driver.findElement(By.id(inpSite_handlerId)));
-        sitesWE.click();
-        List<WebElement> sitesLisWE = driver.findElements(By.cssSelector(inpSiteListId));
+        setWaitDriver(TIME_POLL);
+        WebElement c = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#filter_336_MultiSelect")));
+        setWaitDriver(TIME_POLL);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();",c);
+        LOGGER.info("Click en opción");
+        setWaitDriver(TIME_POLL);
         Nepal nepal = (Nepal) pais;
-        switch (nepal.getSiteType()) {
-            case TIGER_PALACE:
-                sitesLisWE.stream()
-                        .filter(li ->  li.getText().contains(SiteType.TIGER_PALACE.getSiteName())
-                                && !li.getText().contains("all")
-                                && !li.findElement(By.cssSelector("input")).isSelected())
-                        .forEach(li -> li.findElement(By.cssSelector("input")).click());
-                deselectNoMatch(sitesLisWE, SitesPredicates.isNotShangriSiteSelected());
-                break;
-            default:
-                sitesLisWE.stream()
-                        .filter(li -> !li.getText().contains(SiteType.TIGER_PALACE.getSiteName())
-                                && !li.getText().contains("all")
-                                && !li.findElement(By.cssSelector("input")).isSelected())
-                        .forEach(li -> li.findElement(By.cssSelector("input")).click());
-                deselectNoMatch(sitesLisWE, SitesPredicates.isShangriSiteSelected());
+        if (nepal.getSiteType() == SiteType.TIGER_PALACE) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[6]/md-select-menu/md-content/md-select-header/div[1]/input"))).sendKeys(SiteType.TIGER_PALACE.getSiteName());
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[6]/md-select-menu/md-content/md-option"))).click();
+
+            LOGGER.info("Site Seleccionado: " + SiteType.TIGER_PALACE.getSiteName());
+        } else {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[6]/md-select-menu/md-content/md-select-header/div[1]/input"))).sendKeys(SiteType.SHANGRI.getSiteName());
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[6]/md-select-menu/md-content/md-option"))).click();
+            LOGGER.info("Site Seleccionado: " + SiteType.SHANGRI.getSiteName());
         }
         LOGGER.info("Sites definidos.");
     }
@@ -764,7 +768,9 @@ public class ScorecardHandler {
      * @param pais Objeto heredado de país
      */
     private void setCountry(Pais pais) {
+        setWaitDriver(TIME_POLL);
         LOGGER.info("Inicio SetCountry");
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_335_MultiSelect\"]")));
         WebElement a  = driver.findElement(By.xpath("//*[@id=\"filter_335_MultiSelect\"]"));
         a.sendKeys(pais.getCountryType().toString());
         LOGGER.info("Pais definido");
@@ -849,11 +855,12 @@ public class ScorecardHandler {
      * Hace click en el botón refresh de la página de scorecard.
      */
     private void refreshButton() {
-        refreshWE = driver.findElement(By.className("md-fab"));
-        LOGGER.info("Elemento encontrado");
-        /**((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+refreshWE.getLocation().y+")");**/
-        ((JavascriptExecutor)driver).executeScript("window.scrollTo(0,"+refreshWE.getLocation().x+")");
-        /**refreshWE.click();**/
+        setWaitDriver(TIME_POLL);
+        refreshWE = driver.findElement(By.xpath("//button[contains(.,'directions_run')]"));
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();",refreshWE);
+        setWaitDriver(TIME_POLL);
     }
 
 
@@ -862,13 +869,18 @@ public class ScorecardHandler {
      *
      * @param reportType ReportType del reporte.
      */
-    private void openReport(ReportType reportType) {
+    private void openReport(Pais pais, ReportType reportType) {
         switch (reportType) {
             case ALL_GAME_PROFIT:
                 driver.findElement(By.cssSelector(gPReportWE)).click();
                 break;
             case SCORECARD_EGM:
-                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]"))).click();
+                if (pais instanceof Nepal) {
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[3]"))).click();
+                }
+                else{
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]"))).click();
+                }
                 break;
             case MYSTERY:
                 driver.findElement(By.cssSelector(misteryReportWE)).click();
@@ -928,9 +940,10 @@ public class ScorecardHandler {
 
     private void CargaReporte(ReportType reportType) {
 
-        exportIconWE = wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"resultsTableHeader\"]/md-menu[1]/button")));
+        wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"borderLayout_eGridPanel\"]/div[1]/div/div[1]/div[3]/div/div/div[1]/div/div[4]")));
         LOGGER.info("Verificando si hay información");
-
+        setWaitDriver(TIME_POLL);
+        
     }
 
     /**
@@ -941,11 +954,13 @@ public class ScorecardHandler {
      * @return
      */
     private boolean verifyReportLoadedCorrectly(ReportType reportType) {
-
+        setWaitDriver(TIME_POLL);
         switch (reportType) {
             case SCORECARD_EGM:
             case ALL_GAME_PROFIT:
-                amount = driver.findElement(By.cssSelector(totalInCellId)).getText();
+                wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[9]")));
+                amount = driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/md-content/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/table-tab/div[1]/div[3]/div/div[9]/md-input-container/md-select/md-select-value/span[1]")).getText();
+                LOGGER.info("Reporte cargado correctamente " + amount);
                 break;
             case MYSTERY:
                 amount = driver.findElement(By.cssSelector(ggrCellId + "_Row1")).getText();
