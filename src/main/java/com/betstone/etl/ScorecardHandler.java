@@ -483,12 +483,12 @@ public class ScorecardHandler {
         inputDates(pais);
         setWebCurrency(pais);
         setCountry(pais);
-        setWaitDriver(TIME_POLL);
-        if (pais instanceof Nepal)
+        if (pais instanceof Nepal) {
             setWaitDriver(TIME_POLL);
             setSite(pais);
+        }
         refreshButton();
-        CargaReporte(reportType);
+        /**CargaReporte(reportType);*/
         verifyReportLoadedCorrectly(reportType);
     }
         /**
@@ -703,10 +703,25 @@ public class ScorecardHandler {
      * @param pais Pais a ingresar
      */
     private void setWebCurrency(Pais pais) {
-        currencyWE = driver.findElement(By.xpath("//*[@id=\"filter_340_Select\"]"));
+        /**currencyWE = driver.findElement(By.xpath("//*[@id=\"filter_340_Select\"]"));*/
+
+
+        setWaitDriver(TIME_POLL);
+        WebElement currencyWE = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_value_label_116 > span._md-select-icon")));
+        setWaitDriver(TIME_POLL);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();",currencyWE);
+        LOGGER.info("Click en Currency");
+        setWaitDriver(TIME_POLL);
+        WebElement currencyCountry = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input_117")));
+
+
+            LOGGER.info("Moneda Seleccionada: " + Mexico.CURRENCY);
+
         switch (pais.getCountryType()) {
             case MEXICO:
-                currencyWE.sendKeys(Mexico.CURRENCY);
+                currencyCountry.sendKeys(Mexico.CURRENCY);
+                wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_option_132"))).click();
                 break;
 
             case LAOS:
