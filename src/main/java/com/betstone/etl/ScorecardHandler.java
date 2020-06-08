@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,6 +25,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,8 +59,8 @@ public class ScorecardHandler {
     private final String inpCasinoOperator_handlerId = "inpCasinoOperator_handler";
     private final String inpCasinoOperatorListId = "#inpCasinoOperator li";
     private final String refreshButtonId = "rdAgDefaultButtonStyle";
-    private final String imgTableExportId = "imgTableExport";
-    private final String exportExcelButtonId = "lblExportExcel_rdPopupOptionItem";
+    private final String imgTableExportId = "/html/body/div[1]/div/div[2]/md-content/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/table-tab/div[1]/div[1]/div/div/div/md-menu[1]/button";
+    private final String exportExcelButtonId = "//*[@id=\"menu_container_72\"]/md-menu-content/md-menu-item[2]/button";
     private final String exportCsvButtonId = "lblExportCsv_rdPopupOptionItem";
     private final String inpSite_handlerId = "inpSite_handler";
     private final String inpSiteListId = "#inpSite li";
@@ -402,8 +405,10 @@ public class ScorecardHandler {
         }
         setWebDriverProperty();
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("no-sandbox");
+        options.addArguments("-incognito");
         driver = instanceDriver(options);
+
+        driver.manage().window().maximize();
         LOGGER.info("WebDriver inicializado.");
         setWaitDriver(TIME_POLL);
         return true;
@@ -458,20 +463,20 @@ public class ScorecardHandler {
         inputDates(pais);
         setWebCurrency(pais);
         setCountry(pais);
-        refreshButton();
-        CargaReporte(reportType);
-        verifyReportLoadedCorrectly(reportType);
-        if (pais instanceof Nepal)
+        if (pais instanceof Nepal) {
+            setWaitDriver(TIME_POLL);
             setSite(pais);
+        }
         refreshButton();
-        openReport(pais, reportType);
+        LOGGER.info("Prueba de descarga");
+        verifyReportLoadedCorrectly(reportType);
         downloadExcel(reportType);
         waitDownloadComplete(pais, reportType, false);
     }
 
     private void scorecardInputProcessAndDownloadExcel1(ReportType reportType, Pais pais) throws Exception {
         returnToMainMenuOrLoadPage();
-        LOGGER.info("Entrando a scorecardinputProcess");
+        LOGGER.info("Entrando a BI Portal");
         if (reportType == ReportType.MYSTERY && !(pais instanceof Mexico)) {
             returnToMainMenu();
             return;
@@ -488,20 +493,9 @@ public class ScorecardHandler {
             setSite(pais);
         }
         refreshButton();
-        /**CargaReporte(reportType);*/
+        LOGGER.info("Prueba 8 de junio de 2020");
         verifyReportLoadedCorrectly(reportType);
     }
-        /**
-
-        setWebDistributor();
-        setCountry(pais);
-        setCasinoOperator(pais);
-        if (pais instanceof Nepal)
-            setSite(pais);
-        refreshButton();
-        openReport(reportType);
-        CargaReporte(reportType);
-        verifyReportLoadedCorrectly(reportType);*/
 
     /**
      * @param reportType
@@ -690,8 +684,19 @@ public class ScorecardHandler {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input")));
         dateFromSubmit = driver.findElement(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input"));
         dateFromSubmit.clear();
-        dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
-        /*dateToSubmit = driver.findElement(By.id(inputToDateId));
+        dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha().plusDays(1), scorecardFormat));
+        setWaitDriver(TIME_POLL);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/md-sidenav/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/form/div[1]/div[3]/div/div/md-datepicker/div/button"))).click();
+        setWaitDriver(TIME_POLL);
+
+        try {
+            wait.until(ExpectedConditions.attributeToBe(By.xpath("//td[@class=\"md-calendar-date md-calendar-selected-date md-focus\"]"), "aria-label", "Wednesday January 1 2020"));
+
+        }
+        catch (Exception exception) {
+            LOGGER.info("Saliendo de Try");
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@aria-label=\"Wednesday January 1 2020\"]"))).click();
+        }/*dateToSubmit = driver.findElement(By.id(inputToDateId));
         dateToSubmit.clear();
         dateToSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
         */
@@ -703,25 +708,28 @@ public class ScorecardHandler {
      * @param pais Pais a ingresar
      */
     private void setWebCurrency(Pais pais) {
-        /**currencyWE = driver.findElement(By.xpath("//*[@id=\"filter_340_Select\"]"));*/
+        currencyWE = driver.findElement(By.xpath("//*[@id=\"filter_340_Select\"]"));
 
 
-        setWaitDriver(TIME_POLL);
+        /**setWaitDriver(TIME_POLL);
         WebElement currencyWE = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_value_label_116 > span._md-select-icon")));
         setWaitDriver(TIME_POLL);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();",currencyWE);
         LOGGER.info("Click en Currency");
         setWaitDriver(TIME_POLL);
-        WebElement currencyCountry = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input_117")));
+        WebElement currencyCountry = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input_117")));*/
 
 
             LOGGER.info("Moneda Seleccionada: " + Mexico.CURRENCY);
 
         switch (pais.getCountryType()) {
             case MEXICO:
-                currencyCountry.sendKeys(Mexico.CURRENCY);
-                wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_option_132"))).click();
+                currencyWE.sendKeys(Mexico.CURRENCY);
+                setWaitDriver(TIME_POLL);
+                /**WebElement a = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_option_132")));
+                setWaitDriver(TIME_POLL);
+                a.click();*/
                 break;
 
             case LAOS:
@@ -788,7 +796,7 @@ public class ScorecardHandler {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_335_MultiSelect\"]")));
         WebElement a  = driver.findElement(By.xpath("//*[@id=\"filter_335_MultiSelect\"]"));
         a.sendKeys(pais.getCountryType().toString());
-        LOGGER.info("Pais definido");
+        LOGGER.info("Pais definido " + pais.getCountryType().toString());
         }
 
     /**
@@ -937,18 +945,18 @@ public class ScorecardHandler {
     }
 
     private void downloadExcel(ReportType reportType) {
-
-        tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
-        exportIconWE = wait.until(webDriver -> driver.findElement(By.id(imgTableExportId)));
-        LOGGER.info("Reporte cargado");
-
-        exportIconWE.click();
+        setWaitDriver(TIME_POLL);
+        WebElement downloadIcon = driver.findElement(By.xpath(imgTableExportId));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();",downloadIcon);
+        setWaitDriver(TIME_POLL);
+        LOGGER.info("Iniciando descarga");
         String downloadButton = (formatExcel) ?
                 exportExcelButtonId :
                 exportCsvButtonId;
-        downloadWE = driver.findElement(By.id(downloadButton));
-        downloadWE.click();
+        downloadWE = wait.until(driver -> driver.findElement(By.xpath(downloadButton)));
+        js.executeScript("arguments[0].click();",downloadWE);
+        setWaitDriver(TIME_POLL);
         LOGGER.info("Archivo solicitado, esperando descarga...");
 
     }
@@ -971,11 +979,12 @@ public class ScorecardHandler {
     private boolean verifyReportLoadedCorrectly(ReportType reportType) {
         setWaitDriver(TIME_POLL);
         switch (reportType) {
-            case SCORECARD_EGM:
             case ALL_GAME_PROFIT:
+            case SCORECARD_EGM:
                 wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[9]")));
-                amount = driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/md-content/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/table-tab/div[1]/div[3]/div/div[9]/md-input-container/md-select/md-select-value/span[1]")).getText();
-                LOGGER.info("Reporte cargado correctamente " + amount);
+                amount = driver.findElement(By.xpath("//*[@id=\"column_TotalWagers_uiAggregate\"]/.//span[text()]")).getAttribute("innerHTML");
+                LOGGER.info("Total In: $" +amount);
+                LOGGER.info("Reporte cargado correctamente");
                 break;
             case MYSTERY:
                 amount = driver.findElement(By.cssSelector(ggrCellId + "_Row1")).getText();
