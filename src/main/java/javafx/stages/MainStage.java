@@ -21,7 +21,7 @@ public class MainStage extends Application {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxmls/mainScene.fxml"));
-            primaryStage.setTitle("Scorecard WebScrapper Betstone");
+            primaryStage.setTitle("BI Portal WebScrapper Betstone");
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/mainScene.css")
                     .toExternalForm());

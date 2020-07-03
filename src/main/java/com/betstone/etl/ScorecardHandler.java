@@ -22,10 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.time.format.TextStyle;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -60,7 +58,7 @@ public class ScorecardHandler {
     private final String inpCasinoOperatorListId = "#inpCasinoOperator li";
     private final String refreshButtonId = "rdAgDefaultButtonStyle";
     private final String imgTableExportId = "/html/body/div[1]/div/div[2]/md-content/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/table-tab/div[1]/div[1]/div/div/div/md-menu[1]/button";
-    private final String exportExcelButtonId = "//*[@id=\"menu_container_72\"]/md-menu-content/md-menu-item[2]/button";
+    private final String exportExcelButtonId = "//*[@ng-click=\"exportFile('excel')\"]";
     private final String exportCsvButtonId = "lblExportCsv_rdPopupOptionItem";
     private final String inpSite_handlerId = "inpSite_handler";
     private final String inpSiteListId = "#inpSite li";
@@ -169,22 +167,22 @@ public class ScorecardHandler {
 
             try {
                 initializeWebBrowser();
-                if (t instanceof Mexico && reportType == ReportType.ALL_GAME_PROFIT && formatExcel)
-                    segmentMexicoReports(reportType, t);
-                else {
                     scorecardInputProcessAndDownloadExcel1(reportType,t);
                 if(!amount.isEmpty()){
                     scorecardInputProcessAndDownloadExcel(reportType, t);
 
                     findFileAndMove(reportType, t, isDaily(), formatExcel);}
-                }
-            } catch (IOException e) {
+            } catch (NullPointerException e){
+                LOGGER.info("Finalizado por Reporte Vacío");
+            }
+            catch (IOException e) {
                 LOGGER.fatal(e.getMessage());
             } catch (TimeoutException e) {
              LOGGER.warn("Error en proceso, reintentando");
              verifyHTTPCode();
              oneDayDownloadCountry(reportType, t);
-             } catch (Exception e) {
+             }
+            catch (Exception e) {
                 LOGGER.fatal("Error inesperado: " + e.getMessage() +
                         " en:\n " + Stream.of(e.getStackTrace()).toString());
                 LOGGER.info("Reintendando...");
@@ -272,7 +270,7 @@ public class ScorecardHandler {
 
             if(!amount.isEmpty()){
             scorecardInputProcessAndDownloadExcelSegmented(reportType, t);
-            findFileAndMoveSegmented(reportType, t, isDaily(), segmentCasinos, ".xls");}
+            findFileAndMoveSegmented(reportType, t, isDaily(), segmentCasinos, ".xlsx");}
         }
     }
 
@@ -457,7 +455,7 @@ public class ScorecardHandler {
             return;
         }
         eraseAllIncompleteDownloads();
-        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
+        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xlsx" : ".csv");
         openReport(pais, reportType);
         Wait_for_report(reportType);
         inputDates(pais);
@@ -482,7 +480,7 @@ public class ScorecardHandler {
             return;
         }
         eraseAllIncompleteDownloads();
-        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
+        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xlsx" : ".csv");
         openReport(pais, reportType);
         Wait_for_report(reportType);
         inputDates(pais);
@@ -493,7 +491,6 @@ public class ScorecardHandler {
             setSite(pais);
         }
         refreshButton();
-        LOGGER.info("Prueba 8 de junio de 2020");
         verifyReportLoadedCorrectly(reportType);
     }
 
@@ -509,7 +506,7 @@ public class ScorecardHandler {
             return;
         }
         eraseAllIncompleteDownloads();
-        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xls" : ".csv");
+        IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xlsx" : ".csv");
     }
         /**inputDates(pais);
         setWebCurrency(pais);
@@ -586,7 +583,6 @@ public class ScorecardHandler {
         setWaitDriver(TIME_POLL);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();",c);
-        LOGGER.info("Click en opción");
         setWaitDriver(TIME_POLL);
         Nepal nepal = (Nepal) pais;
         if (nepal.getSiteType() == SiteType.TIGER_PALACE) {
@@ -628,8 +624,8 @@ public class ScorecardHandler {
             Path downloadPath = Paths.get(getPropertiesValue("directory.download"));
             while (!Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-                if (pais instanceof Mexico && reportType != ReportType.MYSTERY && !operatorDownload)
-                    Thread.currentThread().sleep(sleep);
+                /**if (pais instanceof Mexico && reportType != ReportType.MYSTERY && !operatorDownload)
+                    Thread.currentThread().sleep(sleep);*/
             }
             LOGGER.info("Descarga iniciada...");
             while (Files.list(downloadPath)
@@ -694,8 +690,7 @@ public class ScorecardHandler {
 
         }
         catch (Exception exception) {
-            LOGGER.info("Saliendo de Try");
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@aria-label=\"Wednesday January 1 2020\"]"))).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@aria-label=\"" + pais.getFecha().getDayOfWeek().getDisplayName(TextStyle.FULL,Locale.ENGLISH) + " " + pais.getFecha().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " + pais.getFecha().getDayOfMonth() + " " +  pais.getFecha().getYear() + "\"]"))).click();
         }/*dateToSubmit = driver.findElement(By.id(inputToDateId));
         dateToSubmit.clear();
         dateToSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
@@ -727,9 +722,6 @@ public class ScorecardHandler {
             case MEXICO:
                 currencyWE.sendKeys(Mexico.CURRENCY);
                 setWaitDriver(TIME_POLL);
-                /**WebElement a = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#select_option_132")));
-                setWaitDriver(TIME_POLL);
-                a.click();*/
                 break;
 
             case LAOS:
@@ -895,7 +887,12 @@ public class ScorecardHandler {
     private void openReport(Pais pais, ReportType reportType) {
         switch (reportType) {
             case ALL_GAME_PROFIT:
-                driver.findElement(By.cssSelector(gPReportWE)).click();
+                if (pais instanceof Nepal) {
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[4]/div/div/div[2]/a[3]"))).click();
+                }
+                else{
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[4]/div/div/div[2]/a[2]"))).click();
+                }
                 break;
             case SCORECARD_EGM:
                 if (pais instanceof Nepal) {
@@ -940,7 +937,7 @@ public class ScorecardHandler {
 
         tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"reportView_121_Button\"]/span")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addViewButton\"]")));
         LOGGER.info("Reporte cargado");
     }
 
@@ -954,7 +951,9 @@ public class ScorecardHandler {
         String downloadButton = (formatExcel) ?
                 exportExcelButtonId :
                 exportCsvButtonId;
+        LOGGER.info(downloadButton);
         downloadWE = wait.until(driver -> driver.findElement(By.xpath(downloadButton)));
+        setWaitDriver(TIME_POLL);
         js.executeScript("arguments[0].click();",downloadWE);
         setWaitDriver(TIME_POLL);
         LOGGER.info("Archivo solicitado, esperando descarga...");
@@ -981,11 +980,17 @@ public class ScorecardHandler {
         switch (reportType) {
             case ALL_GAME_PROFIT:
             case SCORECARD_EGM:
-                wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[9]")));
-                amount = driver.findElement(By.xpath("//*[@id=\"column_TotalWagers_uiAggregate\"]/.//span[text()]")).getAttribute("innerHTML");
-                LOGGER.info("Total In: $" +amount);
-                LOGGER.info("Reporte cargado correctamente");
+                try {
+                    wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[9]")));
+                    amount = driver.findElement(By.xpath("//*[@id=\"column_TotalWagers_uiAggregate\"]/.//span[text()]")).getAttribute("innerHTML");
+                    LOGGER.info("Total In: $" +amount);
+                    LOGGER.info("Reporte cargado correctamente");
+            }   catch (Exception e) {
+                LOGGER.info("Reporte vacío");
+                amount = null;
+            }
                 break;
+
             case MYSTERY:
                 amount = driver.findElement(By.cssSelector(ggrCellId + "_Row1")).getText();
         }

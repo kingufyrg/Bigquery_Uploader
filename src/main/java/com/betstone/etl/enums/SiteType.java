@@ -2,8 +2,8 @@ package com.betstone.etl.enums;
 
 public enum SiteType {
     TIGER_PALACE("Tiger Palace (Nepal)", CountryType.NEPAL),
-    SHANGRI("Shangri- La Hotel and Casino", CountryType.NEPAL),
-    MILLIONAIRES_CLUB("Millionaires Club", CountryType.NEPAL);
+    SHANGRI("Millionaires Club (Nepal)", CountryType.NEPAL),
+    MILLIONAIRES_CLUB("Millionaires Club (Nepal)", CountryType.NEPAL);
 
     private final String siteName;
     private final CountryType countryType;

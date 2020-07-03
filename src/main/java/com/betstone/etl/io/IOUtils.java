@@ -187,7 +187,7 @@ public class IOUtils {
 
 
     /**
-     * Busca el archivo descargado tratando de empatar que sea un archivo que termine en .xls
+     * Busca el archivo descargado tratando de empatar que sea un archivo que termine en .xlsx
      * y que su fecha de creación sea el de hoy. Una vez encontrado, envía el archivo
      * encontrado a la dirección de descarga.
      *
@@ -200,7 +200,7 @@ public class IOUtils {
             String pathS = formatOutputName(reportType, pais, formatExcel);
             Path downloadPath = Paths.get(getPropertiesValue("directory.download")),
                     directoryPath = getDirectoryPathFromReport(reportType, pathS, daily);
-            String endsWith = (formatExcel) ? ".xls" : ".csv";
+            String endsWith = (formatExcel) ? ".xlsx" : ".csv";
             IOUtils.filterFormatFilesAndMove(downloadPath, directoryPath, endsWith);
             LOGGER.info("Archivo descargado movido a: " + directoryPath);
         } catch (IOException e) {
@@ -237,7 +237,7 @@ public class IOUtils {
                 name += 3;
         }
         return name + ((formatExcel) ?
-                ".xls" :
+                ".xlsx" :
                 ".csv");
     }
 
@@ -341,7 +341,7 @@ public class IOUtils {
 
     private static String formatOutputNameSegmented(ReportType reportType, Pais pais, int segmentCasinos) {
         String name = IOUtils.getDateFormatted(pais.getFecha(), fileFormat);
-        return name + "11" + "_" + segmentCasinos + ".xls";
+        return name + "11" + "_" + segmentCasinos + ".xlsx";
     }
 
     public static LocalDate getLastSunday() {
