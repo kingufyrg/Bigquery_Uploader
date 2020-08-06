@@ -33,7 +33,7 @@ import static com.betstone.etl.io.IOUtils.*;
 
 public class ScorecardHandler {
 
-    private static final long TIME_POLL = 6;
+    private static final long TIME_POLL = 10;
     public static Logger LOGGER = LogManager.getLogger(ScorecardHandler.class);
     private final String egmReportWE = "//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[3]/div/div/div[2]/a[2]";
     private final String gPReportWE = "#dtReportLayouts #colLayout_Row4";
@@ -458,7 +458,7 @@ public class ScorecardHandler {
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xlsx" : ".csv");
         openReport(pais, reportType);
         Wait_for_report(reportType);
-        inputDates(pais);
+        inputDates(pais,reportType);
         setWebCurrency(pais);
         setCountry(pais);
         if (pais instanceof Nepal) {
@@ -483,7 +483,7 @@ public class ScorecardHandler {
         IOUtils.eraseAllFormatFiles((isFormatExcel()) ? ".xlsx" : ".csv");
         openReport(pais, reportType);
         Wait_for_report(reportType);
-        inputDates(pais);
+        inputDates(pais,reportType);
         setWebCurrency(pais);
         setCountry(pais);
         if (pais instanceof Nepal) {
@@ -539,7 +539,7 @@ public class ScorecardHandler {
         } else
             returnToMainMenu();
 
-        inputDates(pais);
+        inputDates(pais,reportType);
         setWebCurrency(pais);
         setWebDistributor();
         setCountry(pais);
@@ -676,14 +676,20 @@ public class ScorecardHandler {
      *
      * @param pais País que contiene la fecha a ingresar.
      */
-    private void inputDates(Pais pais) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input")));
-        dateFromSubmit = driver.findElement(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input"));
-        dateFromSubmit.clear();
-        dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha().plusDays(1), scorecardFormat));
-        setWaitDriver(TIME_POLL);
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/md-sidenav/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/form/div[1]/div[3]/div/div/md-datepicker/div/button"))).click();
-        setWaitDriver(TIME_POLL);
+    private void inputDates(Pais pais, ReportType reportType) {
+        LOGGER.info("Ingresando Fecha");
+        if(reportType!=ReportType.MYSTERY) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input")));
+            dateFromSubmit = driver.findElement(By.xpath("//*[@id=\"filter_1_Date1\"]/div[1]/input"));
+        } else {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"filter_341_Date1\"]/div[1]/input")));
+            dateFromSubmit = driver.findElement(By.xpath("//*[@id=\"filter_341_Date1\"]/div[1]/input"));
+        }
+            dateFromSubmit.clear();
+            dateFromSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha().plusDays(1), scorecardFormat));
+            setWaitDriver(TIME_POLL);
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[2]/md-sidenav/md-tabs/md-tabs-content-wrapper/md-tab-content[1]/div/form/div[1]/div[3]/div/div/md-datepicker/div/button"))).click();
+            setWaitDriver(TIME_POLL);
 
         try {
             wait.until(ExpectedConditions.attributeToBe(By.xpath("//td[@class=\"md-calendar-date md-calendar-selected-date md-focus\"]"), "aria-label", "Wednesday January 1 2020"));
@@ -903,7 +909,7 @@ public class ScorecardHandler {
                 }
                 break;
             case MYSTERY:
-                driver.findElement(By.cssSelector(misteryReportWE)).click();
+                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab-content-1\"]/div/reports-tab/md-content/div[6]/div/div/div[2]/a[2]"))).click();
                 break;
         }
         LOGGER.info("Reporte solicitado.");
@@ -933,10 +939,26 @@ public class ScorecardHandler {
     /**
      * Una vez click en el reporte especificado, espera a que cargue
      */
-    private void Wait_for_report(ReportType reportType) {
+    private void Wait_for_report(ReportType reportType) throws InterruptedException {
 
         tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
+        if (reportType == ReportType.ALL_GAME_PROFIT) {
+            try {
+                setWaitDriver(TIME_POLL);
+
+                wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"addViewButton\"]")));
+            }
+            catch(TimeoutException e){
+                Thread.sleep(25000);
+                wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"addViewButton\"]")));
+            }
+            finally {
+                setWaitDriver(TIME_POLL);
+                wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"addViewButton\"]")));
+            }
+        }
+
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"addViewButton\"]")));
         LOGGER.info("Reporte cargado");
     }
@@ -986,13 +1008,23 @@ public class ScorecardHandler {
                     LOGGER.info("Total In: $" +amount);
                     LOGGER.info("Reporte cargado correctamente");
             }   catch (Exception e) {
-                LOGGER.info("Reporte vacío");
-                amount = null;
+                    wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[9]")));
+                    amount = driver.findElement(By.xpath("//*[@id=\"column_TotalWagers_uiAggregate\"]/.//span[text()]")).getAttribute("innerHTML");
+                    LOGGER.info("Total In: $" +amount);
+                    LOGGER.info("Reporte cargado correctamente");
             }
                 break;
 
             case MYSTERY:
-                amount = driver.findElement(By.cssSelector(ggrCellId + "_Row1")).getText();
+                try {
+                    wait.until(webDriver -> driver.findElement(By.xpath("//*[@id=\"scrollTableAggregateFooter\"]/div[4]")));
+                    amount = driver.findElement(By.xpath("//*[@id=\"column_BonusWinAmount_uiAggregate\"]/.//span[text()]")).getAttribute("innerHTML");
+                    LOGGER.info("Bonus Win Amount: $" +amount);
+                    LOGGER.info("Reporte cargado correctamente");
+                }   catch (Exception e) {
+                    LOGGER.info("Reporte vacío");
+                    amount = null;
+                }
         }
         /**!(amount.isEmpty() || amount == null)*/
         return !(amount.isEmpty() || amount == null);
