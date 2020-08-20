@@ -622,22 +622,21 @@ public class ScorecardHandler {
         try {
             long sleep = 1000;
             Path downloadPath = Paths.get(getPropertiesValue("directory.download"));
-            while (!Files.list(downloadPath)
+            /**while (!Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-                /**if (pais instanceof Mexico && reportType != ReportType.MYSTERY && !operatorDownload)
-                    Thread.currentThread().sleep(sleep);*/
-            }
+                if (pais instanceof Mexico && reportType != ReportType.MYSTERY && !operatorDownload)
+                    Thread.currentThread().sleep(sleep);
+            }*/
             LOGGER.info("Descarga iniciada...");
+
             while (Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
                 if (pais instanceof Mexico)
-                    Thread.currentThread().sleep(2000);
+                    Thread.currentThread().sleep(sleep);
             }
             LOGGER.info("Descarga finalizada...");
-            Thread.sleep(2500);
-        } catch (IOException e) {
-            LOGGER.fatal(e.getMessage());
-        } catch (InterruptedException e) {
+            Thread.sleep(3000);
+        } catch (IOException | InterruptedException e) {
             LOGGER.fatal(e.getMessage());
         }
     }
