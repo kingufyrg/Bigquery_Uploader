@@ -4,14 +4,11 @@ import com.betstone.etl.enums.*;
 import com.betstone.etl.io.IOUtils;
 import com.betstone.etl.models.*;
 import com.betstone.etl.predicates.CasinoOperatorsPredicates;
-import com.betstone.etl.predicates.CountryPredicates;
-import com.betstone.etl.predicates.SitesPredicates;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,7 +21,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -403,7 +399,7 @@ public class ScorecardHandler {
         }
         setWebDriverProperty();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("-incognito");
+        /**options.addArguments("-incognito");*/
         driver = instanceDriver(options);
 
         driver.manage().window().maximize();
@@ -622,17 +618,19 @@ public class ScorecardHandler {
         try {
             long sleep = 1000;
             Path downloadPath = Paths.get(getPropertiesValue("directory.download"));
-            /**while (!Files.list(downloadPath)
+            if (reportType == ReportType.ALL_GAME_PROFIT) {
+            while (!Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-                if (pais instanceof Mexico && reportType != ReportType.MYSTERY && !operatorDownload)
-                    Thread.currentThread().sleep(sleep);
-            }*/
+                if (pais instanceof Mexico && reportType != ReportType.MYSTERY)
+                    Thread.sleep(sleep);
+            }
             LOGGER.info("Descarga iniciada...");
 
             while (Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
                 if (pais instanceof Mexico)
-                    Thread.currentThread().sleep(sleep);
+                    Thread.sleep(sleep);
+            }
             }
             LOGGER.info("Descarga finalizada...");
             Thread.sleep(3000);

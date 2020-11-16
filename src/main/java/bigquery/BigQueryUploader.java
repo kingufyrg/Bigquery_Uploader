@@ -171,9 +171,7 @@ public class BigQueryUploader {
     private static boolean isFolderActive(Path path) {
         try {
             return Files.list(path)
-                    .filter(p -> p.toFile().isFile())
-                    .findAny()
-                    .isPresent();
+                    .anyMatch(p -> p.toFile().isFile());
         } catch (IOException e) {
             ScorecardHandler.LOGGER.fatal("Error al abrir directorio");
         }
