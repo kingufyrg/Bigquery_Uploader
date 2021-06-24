@@ -465,7 +465,15 @@ public class ScorecardHandler {
         LOGGER.info("Prueba de descarga");
         verifyReportLoadedCorrectly(reportType);
         downloadExcel(reportType);
-        waitDownloadComplete(pais, reportType, false);
+        setWaitDriver(TIME_POLL);
+        try {
+            waitDownloadComplete(pais, reportType, false);
+        }
+        catch(Exception e){
+
+            LOGGER.info("Se sale del método");
+        }
+
     }
 
     private void scorecardInputProcessAndDownloadExcel1(ReportType reportType, Pais pais) throws Exception {
@@ -616,27 +624,36 @@ public class ScorecardHandler {
      */
     private void waitDownloadComplete(Pais pais, ReportType reportType, boolean operatorDownload) {
         try {
+            LOGGER.info("Entrando a Wait");
             long sleep = 1000;
             Path downloadPath = Paths.get(getPropertiesValue("directory.download"));
             if (reportType == ReportType.ALL_GAME_PROFIT) {
             while (!Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-                if (pais instanceof Mexico && reportType != ReportType.MYSTERY)
-                    Thread.sleep(sleep);
+
             }
             LOGGER.info("Descarga iniciada...");
 
             while (Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
                 if (pais instanceof Mexico)
-                    Thread.sleep(sleep);
+                    Thread.sleep(1000);
             }
             }
             LOGGER.info("Descarga finalizada...");
-            Thread.sleep(3000);
-        } catch (IOException | InterruptedException e) {
-            LOGGER.fatal(e.getMessage());
+            Thread.sleep(6*1000);
         }
+        catch (IOException | InterruptedException e) {
+
+        }
+        finally{
+            LOGGER.info("Exito");
+            setWaitDriver(TIME_POLL);
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        }
+        LOGGER.info("Se sale del finally");
+
     }
 
     /**
