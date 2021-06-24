@@ -643,6 +643,7 @@ public class ScorecardHandler {
             LOGGER.info("Descarga finalizada...");
             Thread.sleep(6*1000);
         }
+
         catch (IOException | InterruptedException e) {
         }
         finally{
