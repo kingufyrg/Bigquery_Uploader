@@ -644,7 +644,6 @@ public class ScorecardHandler {
             Thread.sleep(6*1000);
         }
         catch (IOException | InterruptedException e) {
-
         }
         finally{
             LOGGER.info("Exito");
