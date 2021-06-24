@@ -628,31 +628,34 @@ public class ScorecardHandler {
             long sleep = 1000;
             Path downloadPath = Paths.get(getPropertiesValue("directory.download"));
             if (reportType == ReportType.ALL_GAME_PROFIT) {
-            while (!Files.list(downloadPath)
+                LOGGER.info("1");
+           /*while (!Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-
-            }
-            LOGGER.info("Descarga iniciada...");
+                LOGGER.info("2");
+            }*/
+                Thread.sleep(6*1000);
+                LOGGER.info("Descarga iniciada...");
 
             while (Files.list(downloadPath)
                     .anyMatch(p -> p.toString().endsWith(".crdownload"))) {
-                if (pais instanceof Mexico)
-                    Thread.sleep(1000);
+
+                    Thread.sleep(6*1000);
             }
+                wait.until(ExpectedConditions.numberOfWindowsToBe(2));
             }
             LOGGER.info("Descarga finalizada...");
             Thread.sleep(6*1000);
         }
 
         catch (IOException | InterruptedException e) {
+            LOGGER.info(e.getMessage());
         }
         finally{
-            LOGGER.info("Exito");
             setWaitDriver(TIME_POLL);
             wait.until(ExpectedConditions.numberOfWindowsToBe(2));
 
         }
-        LOGGER.info("Se sale del finally");
+        LOGGER.info("Archivo descargado correctamente");
 
     }
 
