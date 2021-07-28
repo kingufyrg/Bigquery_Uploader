@@ -1,64 +1,82 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Oct  8 12:31:24 2018
 
-@author: Gabriel Quintanar
-"""
-
-import datetime as dt
+import datetime
+import logging
 import os
-import re
+from itertools import islice
 from os.path import isfile, join
-
 import pandas as pd
 from babel import numbers
+from openpyxl import load_workbook
+from pandas import DataFrame
 
 path = "//Volumes/shared/Files_Mystery/Sin_Procesar_Daily"
 pathP = "//Volumes/shared/Files_Mystery/Procesados_Daily"
 dest = "//Volumes/shared/Files_2Databases/MysteryEGM_Daily"
 
-# path = "C:/Users/Yonathan Diaz/Documents/NewETLPython/M"
-# pathP = "C:/Users/Yonathan Diaz/Documents/NewETLPython/M_P"
-# dest = "C:/Users/Yonathan Diaz/Documents/NewETLPython/M_P"
-
-dateformat = "%m/%d/%Y"
-
 onlyfiles = [f for f in os.listdir(path) if isfile(join(path, f))]
-csvfiles = [f for f in onlyfiles if f.endswith('csv')]
-dataframeOuptut = pd.DataFrame(columns=['EGM', 'Date', 'Bonus Win Amount', 'Game Name'])
+excelfiles = [f for f in onlyfiles if f.endswith('xlsx') and f[0] != "~"]
+dataframeOuptut = pd.DataFrame(columns=['EGM', 'Date', 'Mystery Bonus Win', 'Game'])
 
 print("--------- \tArchivo Mistery \t---------")
 try:
-    for file in csvfiles:
-        dataset = pd.read_csv(join(path, file), sep=";", encoding='utf-8')
+    for file in excelfiles:
+        if not file.endswith("xlsx"):
+            pass
+        dateformat = "%Y%m%d"
+        # Carga los libros de Excel con el que trabajará
+        dataset = load_workbook(filename="" + join(path, file) + "")
+        # Copia el contenido del libro de la hoja actual
+        data = dataset.active.values
+        # Define el renglón [0:] (primer renglón) como nombre para las columnas
+        cols = next(data)[0:]
+        # Define al dataset de forma ordenada sin importar si es del mismo tipo, toma toda la hoja como conjunto
+        # ordenado de datos
+        data = list(data)
+        "idx = [r[0] for r in data]"
+        data = (islice(r, 0, None) for r in data)
+        df = DataFrame(data, columns=cols)
         print("Archivo: " + file)
-        dataset['Win Time'] = dataset['Win Time'].apply(lambda x: x[0:10])
-        dataset['Win Time'] = dataset['Win Time'].apply(lambda x: dt.datetime.strptime(x, dateformat))
-        dataset['EGM'] = dataset['EGM'].apply(lambda x: re.sub(r"[_]|[ ]|server|SERVER", '', x)).apply(
-            lambda x: str.upper(x))
-        dataset.loc[:, ['Bonus Win Amount']] = dataset.loc[:, ['Bonus Win Amount']].replace(to_replace="[%]",
+        dateFile = datetime.datetime.strptime(file[0:8], dateformat).date()
+        df['Win Time'] = dateFile
+        df['Win Time'] = pd.to_datetime(df['Win Time'], format="%Y-%m-%d")
+
+        df.loc[:, 'EGM'] = df.loc[:, 'EGM'].replace(to_replace="[_]|[ ]|server|SERVER", value='',
+                                                    regex=True)
+        df['EGM'] = df['EGM'].apply(lambda x: str.upper(x))
+        """df.loc[:, ['Mystery Bonus Win']] = df.loc[:, ['Mystery Bonus Win']].replace(to_replace="[%]",
                                                                                             value="",
                                                                                             regex=True).replace(
-            to_replace='[nan]', value='0', regex=True)
+            to_replace='[nan]', value='0', regex=True)"""
         try:
-            dataset.loc[:, ['Bonus Win Amount']] = dataset.loc[:, ['Bonus Win Amount']].applymap(
-                lambda x: numbers.parse_decimal(x, 'en_US')).astype(float).round(2)
+            df.loc[:, ['Mystery Bonus Win']] = df.loc[:, ['Mystery Bonus Win']].applymap(
+                lambda x: round(x, 2))
         except numbers.NumberFormatError as err:
             print('Error en parseo de número, intentando otro formato', err)
-            dataset.loc[:, ['Bonus Win Amount']] = dataset.loc[:, ['Bonus Win Amount']].applymap(
-                lambda x: numbers.parse_decimal(x, 'de')).astype(float).round(2)
-        dataset.rename(index=str, columns={'Win Time': 'Date'}, inplace=True)
-        dataframeOuptut = dataframeOuptut.append(dataset, sort=False)
-        print("Archivo adjuntado.")
-        dataset = pd.read_csv(join(path, file), sep=";", encoding='utf-8')
+            df.loc[:, ['Mystery Bonus Win']] = df.loc[:, ['Mystery Bonus Win']].applymap(
+                lambda x: round(x, 2))
+        df.rename(index=str, columns={'Win Time': 'Date'}, inplace=True)
+        df = df.loc[:, ['EGM', 'Date', 'Mystery Bonus Win', 'Game']]
+        dataframeOuptut = dataframeOuptut.append(df, sort=False)
+        print(df.info())
+        print("Transformación exitosa y adjuntado a archivo final")
+        print("Archivo adjuntado")
+        dataset.save(join(pathP, file))
+        print("Archivo original copiado a procesados")
         os.remove(join(path, file))
-        dataset.to_csv(join(pathP, file), index=False, header=False, encoding='utf-8')
+
         dataframeOuptut.reset_index(drop=True, inplace=True)
-    if (len(dataframeOuptut) > 0):
-        dataframeOuptut.loc[:, ['EGM', 'Game Name']] = dataframeOuptut.loc[:, ['EGM', 'Game Name']].astype(str)
-        dataframeOuptut.to_csv(join(dest, "MysteryResult.csv"), header=False, index=False)
-        print("Archivo final construido")
+
+        dataframeOuptut.loc[:, ['EGM']] = dataframeOuptut.loc[:, ['EGM']].astype(str)
+
+        dataframeOuptut.loc[:, ['Game']] = dataframeOuptut.loc[:, ['Game']].astype(str)
+
+    if (len(dataframeOuptut)) > 0:
+        dataframeOuptut.to_csv(join(dest, "Mystery.csv"), header=False, index=False, encoding='utf-8')
+        print("Archivo final terminado")
 except Exception as err:
     print("Error en ejecución de ETL Mystery")
-    print(err)
+    print(err.__cause__)
+    logging.exception(str(err))
+    print(err.with_traceback(err.__traceback__))
 print("--------- \tTerminado \t---------")
