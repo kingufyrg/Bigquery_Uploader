@@ -1,0 +1,17 @@
+Index: .idea/libraries/controlsfx_8_40_14.xml
+===================================================================
+--- .idea/libraries/controlsfx_8_40_14.xml	(revision 33b3fb6c6f89f7d4e3372658ad7f58084c35637e)
++++ .idea/libraries/controlsfx_8_40_14.xml	(revision 33b3fb6c6f89f7d4e3372658ad7f58084c35637e)
+@@ -1,9 +0,0 @@
+-<component name="libraryTable">
+-  <library name="controlsfx-8.40.14">
+-    <CLASSES>
+-      <root url="jar://C:/Programa Automatizado/controlsfx-8.40.14.jar!/" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+diff --git resultsBadDays.txt resultsBadDays.txt
+new file mode 100644
