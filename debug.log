@@ -345,3 +345,5 @@
 [0605/224958.933:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
 [0626/170405.224:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
 [0701/142754.914:ERROR:file_io.cc(89)] ReadExactly: expected 36, observed 0
+[1202/145446.423:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
+[0104/141408.688:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
