@@ -44,10 +44,7 @@ try:
         df.loc[:, 'EGM'] = df.loc[:, 'EGM'].replace(to_replace="[_]|[ ]|server|SERVER", value='',
                                                     regex=True)
         df['EGM'] = df['EGM'].apply(lambda x: str.upper(x))
-        """df.loc[:, ['Mystery Bonus Win']] = df.loc[:, ['Mystery Bonus Win']].replace(to_replace="[%]",
-                                                                                            value="",
-                                                                                            regex=True).replace(
-            to_replace='[nan]', value='0', regex=True)"""
+
         try:
             df.loc[:, ['Mystery Bonus Win']] = df.loc[:, ['Mystery Bonus Win']].applymap(
                 lambda x: round(x, 2))
