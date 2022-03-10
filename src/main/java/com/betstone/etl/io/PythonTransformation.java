@@ -10,26 +10,26 @@ import java.util.function.Consumer;
 public class PythonTransformation {
 
     public void execute() {
-        String gP = "GameProfit.py",
-                egm = "ScorecardEGM.py",
-                mistery = "Mistery.py";
+        String report = "ETL_daemon.py";
         ScorecardHandler.LOGGER.info("Iniciando Transformación de datos");
-        ScorecardHandler.LOGGER.info("Game Profit");
-        commandPython(gP);
-        ScorecardHandler.LOGGER.info("ScorecardEGM");
-        commandPython(egm);
-        ScorecardHandler.LOGGER.info("Mystery");
-        commandPython(mistery);
+        ScorecardHandler.LOGGER.info("ETL Python");
+        commandPython(report);
         ScorecardHandler.LOGGER.info("Proceso de tranformación terminado");
     }
 
     private boolean commandPython(String script) {
         try {
             ProcessBuilder builder = new ProcessBuilder();
-            builder.command("cmd.exe", "/c", "python " + script, "exit()");
-            File scriptsDirectory = new File(IOUtils.getPropertiesValue("python.scripts"));
-            builder.directory(scriptsDirectory);
+            //script = "ETL_daemon.py";
+            //builder.command("cmd.exe", "/c", "python " + script, "exit()");
+            ScorecardHandler.LOGGER.info(script);
+            builder.command("bash", "-c", "python3 " + script, "exit()");
+                    File scriptsDirectory = new File(IOUtils.getPropertiesValue("python.scripts"));
+            ScorecardHandler.LOGGER.info("Definir directorio");
+                    builder.directory(scriptsDirectory);
+            ScorecardHandler.LOGGER.info("Definir archivo");
             Process process = builder.start();
+            ScorecardHandler.LOGGER.info("Corriendo archivo");
             StreamGlobber streamGlobber =
                     new StreamGlobber(process.getInputStream(), System.out::println);
             Executors.newSingleThreadExecutor().submit(streamGlobber);

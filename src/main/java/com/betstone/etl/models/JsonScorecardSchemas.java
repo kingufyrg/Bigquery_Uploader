@@ -65,4 +65,28 @@ public class JsonScorecardSchemas {
                     "{\"mode\":\"NULLABLE\",\"name\":\"Different_Games\",\"type\":\"INTEGER\"}," +
                     "{\"mode\":\"NULLABLE\",\"name\":\"Account\",\"type\":\"STRING\"}," +
                     "{\"mode\":\"NULLABLE\",\"name\":\"contador\",\"type\":\"INTEGER\"}]";
+
+
+    public static final String CUSTOMER =
+            "[{\"mode\":\"REQUIRED\",\"name\":\"surname\",\"type\":\"STRING\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"surname\",\"type\":\"STRING\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"birthdate\",\"type\":\"DATE\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"phone\",\"type\":\"STRING\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"customer_id\",\"type\":\"INTEGER\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"zip\",\"type\":\"STRING\"}]";
+    public static final String LOAN =
+            "[{\"mode\":\"REQUIRED\",\"name\":\"contract_start_date\",\"type\":\"STRING\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"contract_end_date\",\"type\":\"DATE\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"total_amount\",\"type\":\"FLOAT\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"payment_frequency\",\"type\":\"INTEGER\"},"+
+                    "{\"mode\":\"REQUIRED\",\"name\":\"payment_amount\",\"type\":\"FLOAT\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"customer_id\",\"type\":\"INTEGER\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"loan_id\",\"type\":\"INTEGER\"}]";
+    public static final String PAYMENT =
+            "[{\"mode\":\"REQUIRED\",\"name\":\"payment_due_date\",\"type\":\"DATE\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"amount_due\",\"type\":\"DATE\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"amount_paid\",\"type\":\"FLOAT\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"actual_payment_date\",\"type\":\"FLOAT\"},"+
+                    "{\"mode\":\"REQUIRED\",\"name\":\"customer_id\",\"type\":\"INTEGER\"}," +
+                    "{\"mode\":\"REQUIRED\",\"name\":\"loan_id\",\"type\":\"INTEGER\"}]";
 }

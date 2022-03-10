@@ -20,7 +20,7 @@ public class ETLProcessOneDayAutoPy {
         IOUtils.setPropertiesFile("config.properties");
         LocalDate yesterday = LocalDate.now().minusDays(1);
         scorecardHandler.setDaily(true);
-        scorecardHandler.useFormatExcel(false);
+        scorecardHandler.useFormatExcel(true);
 
         //////////////////////////////////// Mexico ///////////////////////////////////////////
         Mexico mexico = new Mexico(yesterday);
@@ -35,7 +35,7 @@ public class ETLProcessOneDayAutoPy {
                 mexico);
 
         //////////////////////////////////// Laos ///////////////////////////////////////////
-        Laos laos = new Laos(yesterday);
+        /*Laos laos = new Laos(yesterday);
         scorecardHandler.oneDayDownloadCountry(
                 ReportType.ALL_GAME_PROFIT,
                 laos);
@@ -81,7 +81,7 @@ public class ETLProcessOneDayAutoPy {
                 nepalIndian);
         scorecardHandler.oneDayDownloadCountry(
                 ReportType.MYSTERY,
-                nepalIndian);
+                nepalIndian);**/
 
         scorecardHandler.cancelProcess();
         ScorecardHandler.LOGGER.info("\t----------- \t-----------");

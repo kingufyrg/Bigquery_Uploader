@@ -9,8 +9,24 @@ import java.util.concurrent.TimeUnit;
 
 public class AllDemonsExecutablesPy {
     public static void main(String[] args) {
+        ScorecardHandler.LOGGER.info("ETL diario corriendo...");
+                ETLProcessOneDayAutoPy.execute();
+                if (LocalDateTime.now().getDayOfWeek().getValue() == 1) { // Se ejecuta en cada Lunes a las 4 AM
+                    ETLProcessOneWeekAutoPy.execute();
+                    VerificationProcessOneMonthAutoPy.execute();
+                } else
+                    ScorecardHandler.LOGGER.info("Durmiendo: Demonio semanal");
+
+    }
+}
+
+
+
+
+/*public class AllDemonsExecutablesPy {
+    public static void main(String[] args) {
         Runnable runnable = () -> {
-            if (LocalDateTime.now().getHour() == 4) { // Se ejecuta a las 4 AM
+            if (LocalDateTime.now().getHour() == 10 ) { // Se ejecuta a las 4 AM
                 ETLProcessOneDayAutoPy.execute();
                 if (LocalDateTime.now().getDayOfWeek().getValue() == 1) { // Se ejecuta en cada Lunes a las 4 AM
                     ETLProcessOneWeekAutoPy.execute();
@@ -34,4 +50,4 @@ public class AllDemonsExecutablesPy {
                 Executors.newSingleThreadScheduledExecutor();
         serviceVTwoW.scheduleAtFixedRate(runnableVTwoW, 0, 1, TimeUnit.HOURS);
     }
-}
+}*/

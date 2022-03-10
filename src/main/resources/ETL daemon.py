@@ -1,8 +1,0 @@
-print("ETL is running")
-print("GameProfit report running...")
-exec(open("GameProfit.py").read())
-print("Mystery report running...")
-exec(open("Mistery.py").read())
-print("ScorecardEGM report running...")
-exec(open("ScorecardEGM.py").read())
-print("ETL completed succesfull")
