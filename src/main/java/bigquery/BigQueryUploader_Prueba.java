@@ -20,25 +20,20 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-// TODO: Cancel Button de Subida
-// TODO: Funciones List de Uploader para Interfaz
-// TODO: Logger a TextArea
 
 
-public class BigQueryUploader {
+public class BigQueryUploader_Prueba {
 
     private BigQuery bigquery;
     private Properties properties;
     private final String propertiesFile = "config.properties";
     private Path credentialPath;
     private GoogleCredentials credentials;
-    private String datasetName = "dgc_dna_betstone";
+    private String datasetName = "Prueba";
     private String location = "us";
-    private BigQueryTable[] tableList = {BigQueryTable.GAME_PROFIT, BigQueryTable.GAME_PROFIT_INVOICING,
-            BigQueryTable.PLAYERS_EXPERIENCE, BigQueryTable.ASSETS_DAILY, BigQueryTable.ASSETS_INVOICING,
-            BigQueryTable.EGM, BigQueryTable.EGM_INVOICING, BigQueryTable.MISTERY};
+    private BigQueryTable[] tableList = {BigQueryTable.CUSTOMER, BigQueryTable.LOAN, BigQueryTable.PAYMENT};
 
-    public BigQueryUploader() {
+    public BigQueryUploader_Prueba() {
         try {
             if (getPropertiesValue("credentials.resource").equalsIgnoreCase("1")) {
                 Object ob = ClassLoader.getSystemResource(getPropertiesValue("credentials.bigquery")).getContent();
@@ -83,22 +78,12 @@ public class BigQueryUploader {
 
     private String getFilePath(BigQueryTable table) throws IOException {
         switch (table) {
-            case GAME_PROFIT:
-                return getPropertiesValue("upload.directory.gameprofit");
-            case GAME_PROFIT_INVOICING:
-                return getPropertiesValue("upload.directory.gameprofitinvoicing");
-            case EGM:
-                return getPropertiesValue("upload.directory.egm");
-            case EGM_INVOICING:
-                return getPropertiesValue("upload.directory.egminvoicing");
-            case MISTERY:
-                return getPropertiesValue("upload.directory.mistery");
-            case ASSETS_DAILY:
-                return getPropertiesValue("upload.directory.assetsdaily");
-            case ASSETS_INVOICING:
-                return getPropertiesValue("upload.directory.assetsdailyinvoicing");
-            case PLAYERS_EXPERIENCE:
-                return getPropertiesValue("upload.directory.playersexperience");
+            case CUSTOMER:
+                return getPropertiesValue("upload.directory.customer");
+            case LOAN:
+                return getPropertiesValue("upload.directory.loan");
+            case PAYMENT:
+                return getPropertiesValue("upload.directory.payment");
         }
         return null;
     }
@@ -229,12 +214,12 @@ public class BigQueryUploader {
 
     private List<BigQueryTable> getTablesFromReportType(ReportType report) {
         switch (report) {
-            case ALL_GAME_PROFIT:
-                return Lists.newArrayList(BigQueryTable.GAME_PROFIT, BigQueryTable.GAME_PROFIT_INVOICING);
-            case SCORECARD_EGM:
-                return Lists.newArrayList(BigQueryTable.EGM, BigQueryTable.EGM_INVOICING);
-            case MYSTERY:
-                return Lists.newArrayList(BigQueryTable.MISTERY);
+            case CUSTOMER:
+                return Lists.newArrayList(BigQueryTable.GAME_PROFIT, BigQueryTable.CUSTOMER);
+            case LOAN:
+                return Lists.newArrayList(BigQueryTable.EGM, BigQueryTable.LOAN);
+            case PAYMENT:
+                return Lists.newArrayList(BigQueryTable.PAYMENT);
         }
         return null;
     }

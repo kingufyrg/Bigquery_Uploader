@@ -10,7 +10,10 @@ public enum BigQueryTable {
     EGM_INVOICING("ScorecardEGM2_Invoicing", JsonScorecardSchemas.EGM),
     ASSETS_INVOICING("AssetsDaily2_Invoicing", JsonScorecardSchemas.ASSETS),
     GAME_PROFIT_INVOICING("EGMGameProfit_Invoicing", JsonScorecardSchemas.GAME_PROFIT),
-    PLAYERS_EXPERIENCE("PlayersExperience", JsonScorecardSchemas.PLAYER_EXPERIENCE);
+    PLAYERS_EXPERIENCE("PlayersExperience", JsonScorecardSchemas.PLAYER_EXPERIENCE),
+    CUSTOMER("Customer", JsonScorecardSchemas.CUSTOMER),
+    LOAN("Loan", JsonScorecardSchemas.LOAN),
+    PAYMENT("Payment", JsonScorecardSchemas.PAYMENT);
 
 
     private final String name;
