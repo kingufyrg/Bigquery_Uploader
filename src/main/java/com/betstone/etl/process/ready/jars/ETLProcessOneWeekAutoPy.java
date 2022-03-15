@@ -21,7 +21,7 @@ public class ETLProcessOneWeekAutoPy {
 
         LocalDate yesterday = LocalDate.now();
         scorecardHandler.setDaily(false);
-        scorecardHandler.useFormatExcel(false);
+        scorecardHandler.useFormatExcel(true);
 
         Mexico mexico = new Mexico(yesterday);
         scorecardHandler.oneWeekDownloadCountry(

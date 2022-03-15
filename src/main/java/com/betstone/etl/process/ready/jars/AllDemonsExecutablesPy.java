@@ -16,7 +16,7 @@ public class AllDemonsExecutablesPy {
                     VerificationProcessOneMonthAutoPy.execute();
                 } else
                     ScorecardHandler.LOGGER.info("Durmiendo: Demonio semanal");
-
+        System.exit(0);
     }
 }
 
