@@ -10,9 +10,9 @@ from babel import numbers
 from openpyxl import load_workbook
 from pandas import DataFrame
 
-path = "//Volumes/shared/Files_Mystery/Sin_Procesar_Daily"
-pathP = "//Volumes/shared/Files_Mystery/Procesados_Daily"
-dest = "//Volumes/shared/Files_2Databases/MysteryEGM_Daily"
+path = "/Users/yairrobledo/Desktop/ETL/Mystery/Sin_Procesar"
+pathP = "/Users/yairrobledo/Desktop/ETL/Mystery/Procesados"
+dest = "/Users/yairrobledo/Desktop/Copia de ETL/Mystery"
 
 onlyfiles = [f for f in os.listdir(path) if isfile(join(path, f))]
 excelfiles = [f for f in onlyfiles if f.endswith('xlsx') and f[0] != "~"]

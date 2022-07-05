@@ -63,15 +63,17 @@ public class BigQueryUploader {
 
     public void writeToFileList(BigQueryTable table) throws IOException {
         Files.list(Paths.get(getFilePath(table)))
-                .filter(p -> p.toFile().isFile())
+                .filter(p -> p.toFile().isFile() )
                 .forEach(p -> {
                     try {
+                        if (!(p.getFileName().toString().equals(".DS_Store"))){
                         ScorecardHandler.LOGGER.info("Archivo: " + p.getFileName() + " a tabla: "
                                 + table.getName());
                         writeToFile(datasetName, table, p.toAbsolutePath().toString());
                         ScorecardHandler.LOGGER.info("Subida completada");
                         Files.delete(p);
-                        ScorecardHandler.LOGGER.info("Archivo borrado.");
+                        ScorecardHandler.LOGGER.info("Archivo borrado.");}
+
                     } catch (InterruptedException e) {
                         ScorecardHandler.LOGGER.fatal("Error de interrupción en: " +
                                 e.getMessage());
@@ -171,7 +173,7 @@ public class BigQueryUploader {
     private static boolean isFolderActive(Path path) {
         try {
             return Files.list(path)
-                    .anyMatch(p -> p.toFile().isFile());
+                    .anyMatch(p -> p.toFile().isFile() && !(p.getFileName().toString().equals(".DS_Store")));
         } catch (IOException e) {
             ScorecardHandler.LOGGER.fatal("Error al abrir directorio");
         }
@@ -187,7 +189,7 @@ public class BigQueryUploader {
                     ScorecardHandler.LOGGER.info("Iniciando con tabla: " + bgT.getName());
                     Path p = Paths.get(getFilePath(bgT));
                     ScorecardHandler.LOGGER.info("Path: " + p.toString());
-                    while (isFolderActive(p)) {
+                    while (isFolderActive(p) && !(p.getFileName().toString().equals(".DS_Store"))) {
                         try {
                             ScorecardHandler.LOGGER.info("Folder activo");
                             writeToFileList(bgT);

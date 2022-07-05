@@ -35,7 +35,7 @@ public class ETLProcessOneDayAutoPy {
                 mexico);
 
         //////////////////////////////////// Laos ///////////////////////////////////////////
-        /*Laos laos = new Laos(yesterday);
+        /**Laos laos = new Laos(yesterday);
         scorecardHandler.oneDayDownloadCountry(
                 ReportType.ALL_GAME_PROFIT,
                 laos);

@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -38,7 +37,6 @@ public class ScorecardHandler {
     private String quickEGM_GPWE = "#ReportList_BillinReports #colLayout_Row1";
 
     private boolean formatExcel = true;
-
 
     public static String totalInCellId = "#colTotalWagers span";
     public static String ggrCellId = "#colBonusWinAmount";
@@ -400,7 +398,7 @@ public class ScorecardHandler {
         }
         setWebDriverProperty();
         ChromeOptions options = new ChromeOptions();
-        /**options.addArguments("-incognito");*/
+        options.addArguments("-incognito");
         driver = instanceDriver(options);
 
         driver.manage().window().maximize();
@@ -719,7 +717,7 @@ public class ScorecardHandler {
         dateToSubmit.clear();
         dateToSubmit.sendKeys(IOUtils.getDateFormatted(pais.getFecha(), scorecardFormat));
         */
-    }
+    }       
 
     /**
      * Ingresa tipo de moneda en los elementos web dependiendo el país y el tipo de sitio esperado.
